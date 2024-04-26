@@ -1,6 +1,9 @@
 
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+
 if (!isset($_SESSION["userId"])) {
    header("Location: pages-login.php");
 }
@@ -427,8 +430,15 @@ if (!isset($_SESSION["userId"])) {
           <i class="bi bi-box-arrow-in-right"></i>
           <span>Login</span>
         </a>
-      </li><!-- End Login Page Nav -->
+      </li>
+      <!-- End Login Page Nav -->
 
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="logout.php">
+          <i class="bi bi-box-arrow-in-right"></i>
+          <span>Logout</span>
+        </a>
+      </li>
       <li class="nav-item">
         <a class="nav-link collapsed" href="pages-error-404.php">
           <i class="bi bi-dash-circle"></i>
