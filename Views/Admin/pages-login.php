@@ -1,8 +1,8 @@
 <?php
 require_once '../../Models/user.php';
 require_once '../../Controllers/AuthController.php';
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
 $errMsg = "";
 if(isset($_POST['email']) && isset($_POST['password'])) {

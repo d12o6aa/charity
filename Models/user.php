@@ -1,3 +1,8 @@
 <?php
-echo "done";
+class User
+{
+    public $id;
+    public $email;
+    public $password;
+}
 ?>

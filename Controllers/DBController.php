@@ -1,19 +1,19 @@
-<?php 
+<?php
 
 class DBController
 {
-    public $dbHost = "localhost";
-    public $dbUser = "root";
-    public $dbPassword = "";
-    public $dbName = "";
-    public $connection;
+    private $dbHost = "localhost";
+    private $dbUser = "root";
+    private $dbPassword = "";
+    private $dbName = "charity";
+    private $connection;
 
     public function openConnection()
     {
-        $this->connection = new mysqli($this->dbHost,$this->dbUser,$this->dbPassword,$this->Name);
+        $this->connection = new mysqli($this->dbHost, $this->dbUser, $this->dbPassword, $this->dbName);
         if ($this->connection->connect_error)
         {
-            echo "error in connection".$this->connection->connect_error;
+            echo "Error in connection: " . $this->connection->connect_error;
             return false;
         }
         else 
@@ -22,20 +22,50 @@ class DBController
         }
     }
 
-
     public function closeConnection()
     {
-
         if ($this->connection)
         {
             $this->connection->close();
-
         }
         else 
         {
-            echo " ";
+            echo "Error: No active connection to close";
         }
     }
+
+    public function select($qry, $params = array())
+{
+    $stmt = $this->connection->prepare($qry);
+    if (!$stmt) {
+        echo "Error in preparing statement: " . $this->connection->error;
+        return false;
+    }
+
+    // Bind parameters if provided
+    if (!empty($params)) {
+        $types = str_repeat('s', count($params)); // Assuming all parameters are strings
+        $stmt->bind_param($types, ...$params);
+    }
+
+    // Execute the statement
+    $result = $stmt->execute();
+
+    if (!$result) {
+        echo "Error in executing statement: " . $stmt->error;
+        $stmt->close();
+        return false;
+    }
+
+    // Get the result set
+    $result = $stmt->get_result();
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Close statement and return result
+    $stmt->close();
+    return $data;
+}
+
 
 }
 
