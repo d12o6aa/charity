@@ -35,36 +35,36 @@ class DBController
     }
 
     public function select($qry, $params = array())
-{
-    $stmt = $this->connection->prepare($qry);
-    if (!$stmt) {
-        echo "Error in preparing statement: " . $this->connection->error;
-        return false;
-    }
+    {
+        $stmt = $this->connection->prepare($qry);
+        if (!$stmt) {
+            echo "Error in preparing statement: " . $this->connection->error;
+            return false;
+        }
 
-    // Bind parameters if provided
-    if (!empty($params)) {
-        $types = str_repeat('s', count($params)); // Assuming all parameters are strings
-        $stmt->bind_param($types, ...$params);
-    }
+        // Bind parameters if provided
+        if (!empty($params)) {
+            $types = str_repeat('s', count($params)); // Assuming all parameters are strings
+            $stmt->bind_param($types, ...$params);
+        }
 
-    // Execute the statement
-    $result = $stmt->execute();
+        // Execute the statement
+        $result = $stmt->execute();
 
-    if (!$result) {
-        echo "Error in executing statement: " . $stmt->error;
+        if (!$result) {
+            echo "Error in executing statement: " . $stmt->error;
+            $stmt->close();
+            return false;
+        }
+
+        // Get the result set
+        $result = $stmt->get_result();
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+
+        // Close statement and return result
         $stmt->close();
-        return false;
+        return $data;
     }
-
-    // Get the result set
-    $result = $stmt->get_result();
-    $data = $result->fetch_all(MYSQLI_ASSOC);
-
-    // Close statement and return result
-    $stmt->close();
-    return $data;
-}
 
 
 }
