@@ -247,20 +247,77 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                                     <div class="col-lg-12 col-12 mt-2">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="DonationPayment" id="flexRadioDefault9">
+                                            <input class="form-check-input" type="radio" name="DonationPayment" id="flexRadioDefault9" onclick="showCreditCardForm()">
                                             <label class="form-check-label" for="flexRadioDefault9">
                                                 <i class="bi-credit-card custom-icon ms-1"></i>
                                                 Debit or Credit card
                                             </label>
                                         </div>
-
+                                    
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="DonationPayment" id="flexRadioDefault10">
+                                            <input class="form-check-input" type="radio" name="DonationPayment" id="flexRadioDefault10" onclick="showPaypalForm()">
                                             <label class="form-check-label" for="flexRadioDefault10">
                                                 <i class="bi-paypal custom-icon ms-1"></i>
                                                 Paypal
                                             </label>
                                         </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="DonationPayment" id="flexRadioDefault10" onclick="showcashForm()">
+                                            <label class="form-check-label" for="flexRadioDefault10">
+                                                <i class="bi-cash custom-icon ms-1"></i>
+                                                Cash
+                                            </label>
+                                        </div>
+                                    
+
+                                        
+                                            <!-- Credit Card Form Fields -->
+                                            <div id="creditCardForm" style="display: none;">
+                                                <div class="form-group">
+                                                    <label for="creditCardNumber">Credit Card Number</label>
+                                                    <input type="text" class="form-control" id="creditCardNumber" placeholder="Enter your credit card number">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="expiryDate">Expiry Date</label>
+                                                    <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="cvv">CVV</label>
+                                                    <input type="text" class="form-control" id="cvv" placeholder="CVV">
+                                                </div>
+                                            </div>
+                                    
+
+                                            <!-- PayPal Form Fields -->
+                                            <div id="paypalForm" style="display: none;">
+                                                <div class="form-group">
+                                                    <label for="paypalEmail">PayPal Email</label>
+                                                    <input type="email" class="form-control" id="paypalEmail" placeholder="Enter your PayPal email">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="paypalPassword">Password</label>
+                                                    <input type="password" class="form-control" id="paypalPassword" placeholder="Enter your PayPal password">
+                                                </div>
+                                            </div>
+                                            <!-- PayPal Form Fields -->
+                                            <div id="cashForm" style="display: none;">
+                                                <div class="form-group">
+                                                    <label for="City">City</label>
+                                                    <input type="text" class="form-control" id="City" placeholder="Enter your City">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="Address">Address Line</label>
+                                                    <input type="text" class="form-control" id="Address" placeholder="Enter your Address">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="PostalCode<">Postal Code </label>
+                                                    <input type="tel" class="form-control" id="PostalCode<" placeholder="Enter your Postal Code">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="PhoneNumber">Phone Number</label>
+                                                    <input type="password" class="form-control" id="PhoneNumber" placeholder="Enter your Phone Number">
+                                                </div>
+                                            </div>
 
                                         <button type="submit" class="form-control mt-4">Submit Donation</button>
                                     </div>
@@ -363,7 +420,38 @@ https://templatemo.com/tm-581-kind-heart-charity
             </div>
         </footer>
 
+        <script>
+            function showCreditCardForm() {
+                var creditCardForm = document.getElementById("creditCardForm");
+                var paypalForm = document.getElementById("paypalForm");
+                var cashForm = document.getElementById("cashForm");
+        
+                creditCardForm.style.display = "block";
+                paypalForm.style.display = "none";
+                cashForm.style.display = "none";
+            }
+        
+            function showPaypalForm() {
+                var creditCardForm = document.getElementById("creditCardForm");
+                var paypalForm = document.getElementById("paypalForm");
+                var cashForm = document.getElementById("cashForm");
+        
+                creditCardForm.style.display = "none";
+                paypalForm.style.display = "block";
+                cashForm.style.display = "none";
+            }
+            function showcashForm() {
+                var creditCardForm = document.getElementById("creditCardForm");
+                var paypalForm = document.getElementById("paypalForm");
+                var cashForm = document.getElementById("cashForm");
+        
+                creditCardForm.style.display = "none";
+                paypalForm.style.display = "none";
+                cashForm.style.display = "block";
+            }
+        </script>
         <!-- JAVASCRIPT FILES -->
+
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/jquery.sticky.js"></script>
