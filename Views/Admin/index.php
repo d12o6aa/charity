@@ -299,7 +299,7 @@ if (!isset($_SESSION["userId"])) {
 
       
 
-      <!-- <li class="nav-item">
+      <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
           <i class="bi bi-journal-text"></i><span>Forms</span><i class="bi bi-chevron-down ms-auto"></i>
         </a>
@@ -309,7 +309,7 @@ if (!isset($_SESSION["userId"])) {
               <i class="bi bi-circle"></i><span>Form Elements</span>
             </a>
           </li>
-          <li>
+          <!-- <li>
             <a href="forms-layouts.php">
               <i class="bi bi-circle"></i><span>Form Layouts</span>
             </a>
@@ -323,9 +323,9 @@ if (!isset($_SESSION["userId"])) {
             <a href="forms-validation.php">
               <i class="bi bi-circle"></i><span>Form Validation</span>
             </a>
-          </li>
+          </li> -->
         </ul>
-      </li> -->
+      </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" data-bs-target="#tables-nav" data-bs-toggle="collapse" href="#">

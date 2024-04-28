@@ -46,7 +46,7 @@ class AuthController
         }
         else
         {
-            echo "error";
+            echo "error in Database connection";
             return false;
         }
     }
