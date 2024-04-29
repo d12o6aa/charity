@@ -1,13 +1,4 @@
-<?php
 
-require_once '../../Controllers/NewsControllers.php';
-require_once '../../Models/news.php';
-
-
-$newscontrollers = new NewsControllers;
-$news = 
-
-?>
 
 
 

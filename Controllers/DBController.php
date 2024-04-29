@@ -66,6 +66,35 @@ class DBController
         return $data;
     }
 
+    public function insert($qry, $params = array())
+    {
+        $stmt = $this->connection->prepare($qry);
+        if (!$stmt) {
+            echo "Error in preparing statement: " . $this->connection->error;
+            return false;
+        }
+
+        // Bind parameters if provided
+        if (!empty($params)) {
+            $types = str_repeat('s', count($params)); // Assuming all parameters are strings
+            $stmt->bind_param($types, ...$params);
+        }
+
+        // Execute the statement
+        $result = $stmt->execute();
+
+        if (!$result) {
+            echo "Error in executing statement: " . $stmt->error;
+            $stmt->close();
+            return false;
+        }
+
+        // Close statement and return success
+        $stmt->close();
+        return true;
+    }
+
+
 
 }
 

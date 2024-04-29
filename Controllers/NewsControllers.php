@@ -22,6 +22,31 @@ class NewsControllers
         }
     }
 
+    public function addNews(News $news)
+    {
+        if ($this->db->openConnection())
+        {
+            $query = "INSERT INTO news VALUES ('', ?, ?, ?, ?, ?)";
+            $params = array(
+                $news->getUserId(),
+                $news->getDate(),
+                $news->getTitle(),
+                $news->getNewsDesc(),
+                $news->getImg()
+            );
+            return $this->db->insert($query, $params);
+        }
+        else
+        {
+            throw new Exception("Error: Database connection failed");
+            error_reporting(E_ALL);
+            ini_set('display_errors', 1);
+            // echo "Error: Database connection failed";
+            // return false;
+        }
+    }
+
+
 }
 
 

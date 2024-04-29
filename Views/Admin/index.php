@@ -309,21 +309,6 @@ if (!isset($_SESSION["userId"])) {
               <i class="bi bi-circle"></i><span>Form Elements</span>
             </a>
           </li>
-          <!-- <li>
-            <a href="forms-layouts.php">
-              <i class="bi bi-circle"></i><span>Form Layouts</span>
-            </a>
-          </li>
-          <li>
-            <a href="forms-editors.php">
-              <i class="bi bi-circle"></i><span>Form Editors</span>
-            </a>
-          </li>
-          <li>
-            <a href="forms-validation.php">
-              <i class="bi bi-circle"></i><span>Form Validation</span>
-            </a>
-          </li> -->
         </ul>
       </li>
 
