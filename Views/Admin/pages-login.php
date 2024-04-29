@@ -30,6 +30,7 @@ if(isset($_POST['email']) && isset($_POST['password'])) {
         echo "Both email and password are required!";
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

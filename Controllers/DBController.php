@@ -34,6 +34,11 @@ class DBController
         }
     }
 
+    public function getConnection()
+    {
+        return $this->connection;
+    }
+
     public function select($qry, $params = array())
     {
         $stmt = $this->connection->prepare($qry);

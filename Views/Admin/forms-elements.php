@@ -1,66 +1,76 @@
-
 <?php
 
 require_once '../../Controllers/NewsControllers.php';
 require_once '../../Models/news.php';
 
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-if (session_status() === PHP_SESSION_NONE) {
-  session_start();
-}
+// Start session
+session_start();
 
+// Redirect if user is not logged in
 if (!isset($_SESSION["userId"])) {
-   header("Location: pages-login.php");
+    header("Location: pages-login.php");
+    exit;
 }
 
+// Initialize variables
 $errMsg = "";
+$successMsg = "";
 $newscontrollers = new NewsControllers;
-$new = $newscontrollers->getNews();
 
-if(isset($_POST['date']) && isset($_POST['title']) && isset($_POST['newsDesc']) && isset($_FILES['img'])) {
-  if (!empty($_POST['date']) && !empty($_POST['title']) && !empty($_POST['newsDesc']) && !empty($_FILES['img'])) 
-    {
-  
-      $news = new News;
-      // $news->setUserId($_SESSION["userId"]);
-      $news->setDate($_POST['date']);
-      $news->setTitle($_POST['title']);
-      $news->setNewsDesc($_POST['newsDesc']);
-
-
-      $location = "../images/".date("h-i-s").$_FILES["img"]["name"];
-      
-
-      if (move_uploaded_file($_FILES["img"]["tmp_name"], $location))
-        {
-          $news->setImg($location);
-          if ($newscontrollers->addNews($news))
-            {
-              header("Location : index.php");
-              exit;
+// Process form submission
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Validate form data
+    $date = $_POST['date'];
+    $title = $_POST['title'];
+    $newsDesc = $_POST['newsDesc'];
+    
+    if (empty($date) || empty($title) || empty($newsDesc)) {
+        $errMsg = "All fields are required!";
+    } else {
+        // Handle file upload
+        if ($_FILES['img']['error'] === UPLOAD_ERR_OK) {
+            $tmp_name = $_FILES['img']['tmp_name'];
+            $img_name = $_FILES['img']['name'];
+            $location = "../images/" . date("h-i-s") . $img_name;
+            
+            if (move_uploaded_file($tmp_name, $location)) {
+                // Create News object
+                $news = new News;
+                $news->setUserId($_SESSION["userId"]);
+                $news->setDate($date);
+                $news->setTitle($title);
+                $news->setNewsDesc($newsDesc);
+                $news->setImg($location);
+                
+                // Add news to database
+                try {
+                    if ($newscontrollers->addNews($news)) {
+                        $successMsg = "News added successfully!";
+                        header("Location: index.php");
+                        exit;
+                    } else {
+                        $errMsg = "Failed to add news. Please try again.";
+                    }
+                } catch (Exception $e) {
+                    $errMsg = "Error: " . $e->getMessage();
+                }
+            } else {
+                $errMsg = "Failed to upload image.";
             }
-          else
-            {
-              $errMsg = "Somethink went wrong... try again";
+        } else {
+            $uploadError = $_FILES['img']['error'];
+            if ($uploadError !== UPLOAD_ERR_OK) {
+                $errMsg = "Failed to upload image. Error code: $uploadError";
             }
+
         }
-      else 
-        {
-          $errMsg = "Error in upload!";
-        }
-    }
-  else 
-    {
-      $errMsg = "All is required!";
     }
 }
-
 
 ?>
-
 
 
 
@@ -261,7 +271,7 @@ if(isset($_POST['date']) && isset($_POST['title']) && isset($_POST['newsDesc']) 
               <h5 class="card-title text-center">Add News</h5>
 
               <!-- General Form Elements -->
-              <form  class="text-center">
+              <form  class="text-center" method="post" enctype="multipart/form-data">
                 <?php if ($errMsg != "") { ?>
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         <i class="bi bi-exclamation-triangle me-1"></i>
