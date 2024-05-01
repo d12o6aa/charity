@@ -19,6 +19,7 @@ if (!isset($_SESSION["userId"])) {
 $errMsg = "";
 $successMsg = "";
 $newscontrollers = new NewsControllers;
+$categories = $newscontrollers->getcategories();
 
 // Process form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
@@ -26,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $date = $_POST['date'];
     $title = $_POST['title'];
     $newsDesc = $_POST['newsDesc'];
+    $categorie = $_POST['categories'];
     
     if (empty($date) || empty($title) || empty($newsDesc)) {
         $errMsg = "All fields are required!";
@@ -39,10 +41,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if (move_uploaded_file($tmp_name, $location)) {
                 // Create News object
                 $news = new News;
-                $news->setUserId($_SESSION["userId"]);
+                // $news->setUserId($_SESSION["userId"]);
                 $news->setDate($date);
                 $news->setTitle($title);
                 $news->setNewsDesc($newsDesc);
+                $news->setCategories($categorie);
                 $news->setImg($location);
                 
                 // Add news to database
@@ -302,16 +305,36 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <input type="date" name ="date" class="form-control">
                   </div>
                 </div>
+
                 
+
                 <div class="row mb-3">
                   <label for="inputPassword" class="col-sm-2 col-form-label">Textarea</label>
                   <div class="col-sm-10">
                     <textarea class="form-control" name="newsDesc" style="height: 100px"></textarea>
                   </div>
                 </div>
+
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label">Categories</label>
+                  <div class="col-sm-10">
+                    <select class="form-select" aria-label="Default select example" name="categories">
+                      <option selected>Categories</option>
+                        <?php 
+                            foreach($categories as $categorie)
+                            {
+                              ?>
+                                <option value="<?php echo $categorie["name"] ?>"><?php echo $categorie["name"] ?></option>
+                              <?php
+                            }
+                        ?>
+                    </select>
+                  </div>
+                </div>
+                  
                 
-                <div class="text-center">
-                  <!-- <label class="col-sm-2 col-form-label">Submit Button</label> -->
+                <div class="row mb-3">
+                  <label class="col-sm-2 col-form-label"></label>
                   <div class="col-sm-10">
                     <button type="submit" class="btn btn-primary">Submit Form</button>
                   </div>

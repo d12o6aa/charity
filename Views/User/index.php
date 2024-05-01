@@ -76,7 +76,7 @@ https://templatemo.com/tm-581-kind-heart-charity
 
         <nav class="navbar navbar-expand-lg bg-light shadow-lg">
             <div class="container">
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="index.php">
                     <img src="images/logo.png" class="logo img-fluid" alt="Kind Heart Charity">
                     <span>
                         Kind Heart Charity
@@ -110,9 +110,9 @@ https://templatemo.com/tm-581-kind-heart-charity
                             <a class="nav-link click-scroll dropdown-toggle" href="#section_5" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">News</a>
 
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-                                <li><a class="dropdown-item" href="news.html">News Listing</a></li>
+                                <li><a class="dropdown-item" href="news.php">News Listing</a></li>
 
-                                <li><a class="dropdown-item" href="news-detail.html">News Detail</a></li>
+                                <li><a class="dropdown-item" href="news-detail.php">News Detail</a></li>
                             </ul>
                         </li>
 
@@ -121,7 +121,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                         </li>
 
                         <li class="nav-item ms-3">
-                            <a class="nav-link custom-btn custom-border-btn btn" href="donate.html">Donate</a>
+                            <a class="nav-link custom-btn custom-border-btn btn" href="donate.php">Donate</a>
                         </li>
                     </ul>
                 </div>
@@ -195,7 +195,7 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                         <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
                             <div class="featured-block d-flex justify-content-center align-items-center">
-                                <a href="donate.html" class="d-block">
+                                <a href="#section_4" class="d-block">
                                     <img src="images/icons/hands.png" class="featured-block-image img-fluid" alt="">
 
                                     <p class="featured-block-text">Become a <strong>volunteer</strong></p>
@@ -205,7 +205,7 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                         <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0 mb-md-4">
                             <div class="featured-block d-flex justify-content-center align-items-center">
-                                <a href="donate.html" class="d-block">
+                                <a href="donate.php" class="d-block">
                                     <img src="images/icons/heart.png" class="featured-block-image img-fluid" alt="">
 
                                     <p class="featured-block-text"><strong>Caring</strong> Earth</p>
@@ -215,7 +215,7 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                         <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0 mb-md-4">
                             <div class="featured-block d-flex justify-content-center align-items-center">
-                                <a href="donate.html" class="d-block">
+                                <a href="donate.php" class="d-block">
                                     <img src="images/icons/receive.png" class="featured-block-image img-fluid" alt="">
 
                                     <p class="featured-block-text">Make a <strong>Donation</strong></p>
@@ -225,7 +225,7 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                         <div class="col-lg-3 col-md-6 col-12 mb-4 mb-lg-0">
                             <div class="featured-block d-flex justify-content-center align-items-center">
-                                <a href="donate.html" class="d-block">
+                                <a href="#section_4" class="d-block">
                                     <img src="images/icons/scholarship.png" class="featured-block-image img-fluid" alt="">
 
                                     <p class="featured-block-text"><strong>Scholarship</strong> Program</p>
@@ -251,7 +251,7 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                                 <h5 class="mb-3">Kind Heart Charity, Non-Profit Organization</h5>
 
-                                <p class="mb-0">This is a Bootstrap 5.2.2 CSS template for charity organization websites. You can feel free to use it. Please tell your friends about TemplateMo website. Thank you. HTML CSS files updated on 20 Oct 2022.</p>
+                                <p class="mb-0">At Kind Heart Charity, our story is simple yet powerful. We're a non-profit organization driven by compassion and community. Our mission? To spread kindness wherever it's needed most. Join us in rewriting the narrative of generosity, one heartfelt deed at a time.</p>
                             </div>
                             
                             <div class="row">
@@ -259,7 +259,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                                     <div class="custom-text-box mb-lg-0">
                                         <h5 class="mb-3">Our Mission</h5>
 
-                                        <p>Sed leo nisl, posuere at molestie ac, suscipit auctor quis metus</p>
+                                        <p> to spread kindness and hope to communities worldwide. </p>
 
                                         <ul class="custom-list mt-2">
                                             <li class="custom-list-item d-flex">
@@ -396,7 +396,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                                         </div>
                                     </div>
 
-                                    <a href="donate.html" class="custom-btn btn">Donate now</a>
+                                    <a href="donate.php" class="custom-btn btn">Donate now</a>
                                 </div>
                             </div>
                         </div>
@@ -428,7 +428,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                                         </div>
                                     </div>
 
-                                    <a href="donate.html" class="custom-btn btn">Donate now</a>
+                                    <a href="donate.php" class="custom-btn btn">Donate now</a>
                                 </div>
                             </div>
                         </div>
@@ -460,7 +460,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                                         </div>
                                     </div>
 
-                                    <a href="donate.html" class="custom-btn btn">Donate now</a>
+                                    <a href="donate.php" class="custom-btn btn">Donate now</a>
                                 </div>
                             </div>
                         </div>
@@ -541,7 +541,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                         <div class="col-lg-7 col-12">
                             <div class="news-block">
                                 <div class="news-block-top">
-                                    <a href="news-detail.html">
+                                    <a href="news-detail.php">
                                         <img src="images/news/medium-shot-volunteers-with-clothing-donations.jpg" class="news-image img-fluid" alt="">
                                     </a>
 
@@ -581,7 +581,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                                     </div>
 
                                     <div class="news-block-title mb-2">
-                                        <h4><a href="news-detail.html" class="news-block-title-link">Clothing donation to urban area</a></h4>
+                                        <h4><a href="news-detail.php" class="news-block-title-link">Clothing donation to urban area</a></h4>
                                     </div>
 
                                     <div class="news-block-body">
@@ -592,7 +592,7 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                             <div class="news-block mt-3">
                                 <div class="news-block-top">
-                                    <a href="news-detail.html">
+                                    <a href="news-detail.php">
                                         <img src="images/news/medium-shot-people-collecting-foodstuff.jpg" class="news-image img-fluid" alt="">
                                     </a>
 
@@ -636,7 +636,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                                     </div>
 
                                     <div class="news-block-title mb-2">
-                                        <h4><a href="news-detail.html" class="news-block-title-link">Food donation area</a></h4>
+                                        <h4><a href="news-detail.php" class="news-block-title-link">Food donation area</a></h4>
                                     </div>
 
                                     <div class="news-block-body">
@@ -659,14 +659,14 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                             <div class="news-block news-block-two-col d-flex mt-4">
                                 <div class="news-block-two-col-image-wrap">
-                                    <a href="news-detail.html">
+                                    <a href="news-detail.php">
                                         <img src="images/news/africa-humanitarian-aid-doctor.jpg" class="news-image img-fluid" alt="">
                                     </a>
                                 </div>
 
                                 <div class="news-block-two-col-info">
                                     <div class="news-block-title mb-2">
-                                        <h6><a href="news-detail.html" class="news-block-title-link">Food donation area</a></h6>
+                                        <h6><a href="news-detail.php" class="news-block-title-link">Food donation area</a></h6>
                                     </div>
 
                                     <div class="news-block-date">
@@ -680,14 +680,14 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                             <div class="news-block news-block-two-col d-flex mt-4">
                                 <div class="news-block-two-col-image-wrap">
-                                    <a href="news-detail.html">
+                                    <a href="news-detail.php">
                                         <img src="images/news/close-up-happy-people-working-together.jpg" class="news-image img-fluid" alt="">
                                     </a>
                                 </div>
 
                                 <div class="news-block-two-col-info">
                                     <div class="news-block-title mb-2">
-                                        <h6><a href="news-detail.html" class="news-block-title-link">Volunteering Clean</a></h6>
+                                        <h6><a href="news-detail.php" class="news-block-title-link">Volunteering Clean</a></h6>
                                     </div>
 
                                     <div class="news-block-date">
@@ -977,10 +977,10 @@ https://templatemo.com/tm-581-kind-heart-charity
                 <div class="container">
                     <div class="row">
 
-                        <div class="col-lg-6 col-md-7 col-12">
+                        <!-- <div class="col-lg-6 col-md-7 col-12">
                             <p class="copyright-text mb-0">Copyright © 2036 <a href="#">Kind Heart</a> Charity Org.
                         	Design: <a href="https://templatemo.com" target="_blank">TemplateMo</a></p>
-                        </div>
+                        </div> -->
                         
                         <div class="col-lg-6 col-md-5 col-12 d-flex justify-content-center align-items-center mx-auto">
                             <ul class="social-icon">

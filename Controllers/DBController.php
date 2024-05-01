@@ -100,6 +100,31 @@ class DBController
     }
 
 
+    public function delete($qry, $params = [])
+    {
+        $stmt = $this->connection->prepare($qry);
+        if (!$stmt) {
+            throw new Exception("Error in preparing statement: " . $this->connection->error);
+        }
+
+        // Bind parameters if provided
+        if (!empty($params)) {
+            $types = str_repeat('s', count($params)); // Assuming all parameters are strings
+            $stmt->bind_param($types, ...$params);
+        }
+
+        // Execute the statement
+        $result = $stmt->execute();
+
+        if (!$result) {
+            throw new Exception("Error in executing statement: " . $stmt->error);
+        }
+
+        // Close statement and return success
+        $stmt->close();
+        return true;
+    }
+
 
 }
 

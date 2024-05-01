@@ -1,5 +1,22 @@
+<?php
+
+require_once '../../Controllers/NewsControllers.php';
+require_once '../../Models/news.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+
+// if (!isset($_SESSION["userId"])) {
+//    header("Location: ../Admin/pages-login.php");
+// }
+
+$NewsControllers = new NewsControllers;
+
+$news = $NewsControllers->getNews();
 
 
+?>
 
 
 
@@ -80,7 +97,7 @@ https://templatemo.com/tm-581-kind-heart-charity
 
         <nav class="navbar navbar-expand-lg bg-light shadow-lg">
             <div class="container">
-                <a class="navbar-brand" href="index.html">
+                <a class="navbar-brand" href="index.php">
                     <img src="images/logo.png" class="logo img-fluid" alt="">
                     <span>
                         Kind Heart Charity
@@ -95,37 +112,37 @@ https://templatemo.com/tm-581-kind-heart-charity
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link smoothscroll" href="index.html#section_1">Home</a>
+                            <a class="nav-link smoothscroll" href="index.php#section_1">Home</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link smoothscroll" href="index.html#section_2">About</a>
+                            <a class="nav-link smoothscroll" href="index.php#section_2">About</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link smoothscroll" href="index.html#section_3">Causes</a>
+                            <a class="nav-link smoothscroll" href="index.php#section_3">Causes</a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link smoothscroll" href="index.html#section_4">Volunteer</a>
+                            <a class="nav-link smoothscroll" href="index.php#section_4">Volunteer</a>
                         </li>
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link click-scroll dropdown-toggle" href="index.html#section_5" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">News</a>
+                            <a class="nav-link click-scroll dropdown-toggle" href="index.php#section_5" id="navbarLightDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">News</a>
 
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-                                <li><a class="dropdown-item active" href="news.html">News Listing</a></li>
+                                <li><a class="dropdown-item active" href="news.php">News Listing</a></li>
 
-                                <li><a class="dropdown-item" href="news-detail.html">News Detail</a></li>
+                                <li><a class="dropdown-item" href="news-detail.php">News Detail</a></li>
                             </ul>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link smoothscroll" href="index.html#section_6">Contact</a>
+                            <a class="nav-link smoothscroll" href="index.php#section_6">Contact</a>
                         </li>
 
                         <li class="nav-item ms-3">
-                            <a class="nav-link custom-btn custom-border-btn btn" href="donate.html">Donate</a>
+                            <a class="nav-link custom-btn custom-border-btn btn" href="donate.php">Donate</a>
                         </li>
                     </ul>
                 </div>
@@ -148,24 +165,34 @@ https://templatemo.com/tm-581-kind-heart-charity
                 </div>
             </section>
 
+            
             <section class="news-section section-padding">
                 <div class="container">
                     <div class="row">
 
-                        <div class="col-lg-7 col-12">
+                    <?php 
+                        if (count($news) == 0)
+                        {
+                            echo "no available news";
+                        }
+                        else
+                        {
+                            foreach($news as $new)
+                            { ?>
+                                <div class="col-lg-7 col-12">
                             <div class="news-block">
                                 <div class="news-block-top">
-                                    <a href="news-detail.html">
-                                        <img src="images/news/medium-shot-volunteers-with-clothing-donations.jpg" class="news-image img-fluid" alt="">
+                                    <a href="news-detail.php">
+                                        <img src="<?php echo $new["img"]?>" class="news-image img-fluid" alt="">
                                     </a>
 
                                     <div class="news-category-block">
-                                        <a href="#" class="category-block-link">
+                                        <!-- <a href="#" class="category-block-link">
                                             Lifestyle,
-                                        </a>
+                                        </a> -->
 
                                         <a href="#" class="category-block-link">
-                                            Clothing Donation
+                                            <?php echo $new["title"] ?>
                                         </a>
                                     </div>
                                 </div>
@@ -175,7 +202,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                                         <div class="news-block-date">
                                             <p>
                                                 <i class="bi-calendar4 custom-icon me-1"></i>
-                                                October 18, 2036
+                                                <?php echo $new["date"] ?>
                                             </p>
                                         </div>
 
@@ -186,27 +213,27 @@ https://templatemo.com/tm-581-kind-heart-charity
                                             </p>
                                         </div>
 
-                                        <div class="news-block-comment">
+                                        <!-- <div class="news-block-comment">
                                             <p>
                                                 <i class="bi-chat-left custom-icon me-1"></i>
                                                 32 Comments
                                             </p>
-                                        </div>
+                                        </div> -->
                                     </div>
 
                                     <div class="news-block-title mb-2">
-                                        <h4><a href="news-detail.html" class="news-block-title-link">Clothing donation to urban area</a></h4>
+                                        <h4><a href="news-detail.php" class="news-block-title-link"><?php echo $new["title"] ?></a></h4>
                                     </div>
 
                                     <div class="news-block-body">
-                                        <p>This is a Bootstrap 5.2.2 CSS template for charity organization websites. You can feel free to use it. Please tell your friends about TemplateMo website. Thank you.</p>
+                                        <p><?php echo $new["newsDesc"] ?></p>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="news-block mt-3">
+                            <!-- <div class="news-block mt-3">
                                 <div class="news-block-top">
-                                    <a href="news-detail.html">
+                                    <a href="news-detail.php">
                                         <img src="images/news/medium-shot-people-collecting-foodstuff.jpg" class="news-image img-fluid" alt="">
                                     </a>
 
@@ -250,15 +277,20 @@ https://templatemo.com/tm-581-kind-heart-charity
                                     </div>
 
                                     <div class="news-block-title mb-2">
-                                        <h4><a href="news-detail.html" class="news-block-title-link">Food donation area</a></h4>
+                                        <h4><a href="news-detail.php" class="news-block-title-link">Food donation area</a></h4>
                                     </div>
 
                                     <div class="news-block-body">
                                         <p>You are not allowed to redistribute this template ZIP file on any other template collection website. Please <a href="https://templatemo.com/contact" target="_blank">contact TemplateMo</a> for more information.</p>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </div> -->
+                        </div> <?php
+                            }
+                        }
+                    
+                    ?>
+                        
 
                         <div class="col-lg-4 col-12 mx-auto mt-4 mt-lg-0">
                             <form class="custom-form search-form" action="#" method="post" role="form">
@@ -273,14 +305,14 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                             <div class="news-block news-block-two-col d-flex mt-4">
                                 <div class="news-block-two-col-image-wrap">
-                                    <a href="news-detail.html">
+                                    <a href="news-detail.php">
                                         <img src="images/news/africa-humanitarian-aid-doctor.jpg" class="news-image img-fluid" alt="">
                                     </a>
                                 </div>
 
                                 <div class="news-block-two-col-info">
                                     <div class="news-block-title mb-2">
-                                        <h6><a href="news-detail.html" class="news-block-title-link">Food donation area</a></h6>
+                                        <h6><a href="news-detail.php" class="news-block-title-link">Food donation area</a></h6>
                                     </div>
 
                                     <div class="news-block-date">
@@ -294,14 +326,14 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                             <div class="news-block news-block-two-col d-flex mt-4">
                                 <div class="news-block-two-col-image-wrap">
-                                    <a href="news-detail.html">
+                                    <a href="news-detail.php">
                                         <img src="images/news/close-up-happy-people-working-together.jpg" class="news-image img-fluid" alt="">
                                     </a>
                                 </div>
 
                                 <div class="news-block-two-col-info">
                                     <div class="news-block-title mb-2">
-                                        <h6><a href="news-detail.html" class="news-block-title-link">Volunteering Clean</a></h6>
+                                        <h6><a href="news-detail.php" class="news-block-title-link">Volunteering Clean</a></h6>
                                     </div>
 
                                     <div class="news-block-date">

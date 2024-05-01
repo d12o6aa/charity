@@ -2,18 +2,18 @@
 class News
 {
     private $id;
-    private $userId;
+    private $categories;
     private $date;
     private $title;
     private $newsDesc;
     private $img;
 
-    public function __construct($id = null, $userId = null, $date = null, $title = null, $newsDesc = null, $img = null)
+    public function __construct($id = null, $categories = null, $date = null, $title = null, $newsDesc = null, $img = null)
     {
         // If all arguments are provided, initialize the object with them
-        if ($id !== null && $userId !== null && $date !== null && $title !== null && $newsDesc !== null && $img !== null) {
+        if ($id !== null && $categories !== null && $date !== null && $title !== null && $newsDesc !== null && $img !== null) {
             $this->id = $id;
-            $this->userId = $userId;
+            $this->categories = $categories;
             $this->date = $date;
             $this->title = $title;
             $this->newsDesc = $newsDesc;
@@ -27,9 +27,9 @@ class News
         return $this->id;
     }
 
-    public function getUserId()
+    public function getCategories()
     {
-        return $this->userId;
+        return $this->categories;
     }
 
     public function getDate()
@@ -54,9 +54,9 @@ class News
 
     // Setter methods
 
-    public function setUserId($userId)
+    public function setCategories($categories)
     {
-        $this->userId = $userId;
+        $this->categories = $categories;
     }
     public function setDate($date)
     {

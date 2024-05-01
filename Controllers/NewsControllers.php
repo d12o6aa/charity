@@ -27,6 +27,21 @@ class NewsControllers
             return false;
         }
     }
+    public function getcategories()
+    {
+        if ($this->db->openConnection())
+        {
+            $query = "SELECT * FROM categories";
+            $result = $this->db->select($query);
+            $this->db->closeConnection(); // Close connection after fetching data
+            return $result;
+        }
+        else
+        {
+            echo "Error in database connection";
+            return false;
+        }
+    }
 
     public function addNews(News $news)
     {
@@ -35,7 +50,7 @@ class NewsControllers
                 throw new Exception("Error: Database connection failed");
             }
             
-            $query = "INSERT INTO news (userId, date, title, newsDesc, img) VALUES (?, ?, ?, ?, ?)";
+            $query = "INSERT INTO news (categories, date, title, newsDesc, img) VALUES (?, ?, ?, ?, ?)";
             $stmt = $this->db->getConnection()->prepare($query);
             
             if (!$stmt) {
@@ -43,13 +58,13 @@ class NewsControllers
             }
             
             // Bind parameters
-            $userId = $news->getUserId();
+            $categories = $news->getCategories(); // Corrected variable name
             $date = $news->getDate();
             $title = $news->getTitle();
             $newsDesc = $news->getNewsDesc();
             $img = $news->getImg();
             
-            $stmt->bind_param("sssss", $userId, $date, $title, $newsDesc, $img);
+            $stmt->bind_param("sssss", $categories, $date, $title, $newsDesc, $img);
             
             // Execute the statement
             $result = $stmt->execute();
@@ -69,6 +84,53 @@ class NewsControllers
             $this->db->closeConnection(); // Ensure connection is always closed
         }
     }
+
+
+
+    public function deleteNews($newsId)
+    {
+        try {
+            // Open database connection
+            if (!$this->db->openConnection()) {
+                throw new Exception("Error: Database connection failed");
+            }
+            
+            // Prepare delete query
+            $query = "DELETE FROM news WHERE newsId = ?";
+            $stmt = $this->db->getConnection()->prepare($query);
+            
+            if (!$stmt) {
+                throw new Exception("Error in preparing statement: " . $this->db->getConnection()->error);
+            }
+            
+            // Bind parameter
+            $stmt->bind_param("i", $newsId);
+            
+            // Execute the statement
+            $result = $stmt->execute();
+            
+            // Check if the query executed successfully
+            if ($result) {
+                return true;
+            } else {
+                throw new Exception("Error in executing statement: " . $stmt->error);
+            }
+        } catch (Exception $e) {
+            // Handle or log the error appropriately
+            echo "Error: " . $e->getMessage();
+            return false;
+        } finally {
+            $stmt->close(); // Close the statement
+            $this->db->closeConnection(); // Ensure connection is always closed
+        }
+    }
+
+
+    
+
+
+     
+
 
 }
 
