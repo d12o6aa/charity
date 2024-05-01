@@ -14,6 +14,22 @@ if (session_status() === PHP_SESSION_NONE) {
 $NewsControllers = new NewsControllers;
 
 $news = $NewsControllers->getNews();
+$errMsg = "";
+$successMsg = "";
+if (isset($_POST['delete']))
+{
+  if (!empty($_POST['newsId']))
+  {
+    if ($NewsControllers->deleteNews($_POST['newsId']))
+    {
+      $successMsg = "News delete successfully!";
+    }
+    else
+    {
+      $errMsg = "Failed to delete news. Please try again.";
+    }
+  }
+}
 
 
 ?>
@@ -199,6 +215,7 @@ $news = $NewsControllers->getNews();
       </nav>
     </div><!-- End Page Title -->
 
+    
     <section class="section">
       <div class="row">
         <div class="col-lg-12">
@@ -208,6 +225,26 @@ $news = $NewsControllers->getNews();
               <h5 class="card-title">Datatables</h5>
 
               <!-- Table with stripped rows -->
+              
+              <?php 
+                if ($errMsg != "") { ?>
+                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-octagon me-1"></i>
+                        <?php echo $errMsg; ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                <?php } 
+                else if ($successMsg != "")
+                  {
+                    ?>
+                      <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="bi bi-check-circle me-1"></i>
+                          <?php echo $successMsg; ?>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                      </div>
+                    <?php
+                  }
+              ?>
               <table class="table datatable">
                 <thead>
                   <tr>
@@ -217,6 +254,7 @@ $news = $NewsControllers->getNews();
                     <th>Id</th>
                     <th>Categories</th>
                     <th data-type="date" data-format="YYYY/DD/MM">Date</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -234,6 +272,20 @@ $news = $NewsControllers->getNews();
                           <td> <?php echo $new['id'] ?> </td>
                           <td> <?php echo $new['categories'] ?> </td>
                           <td> <?php echo $new['date'] ?> </td>
+                          <td> 
+                            <form action="index.php" method="POST">
+                              <input type="hidden" name="newsId" value="<?php echo $new['id'] ?>" >
+                              <button type="submit" name="delete" class="btn btn-outline-danger">
+                                <span class="tf-icons bx bx-trash"></span>
+                              </button>
+                            </form>
+                            <!-- <form action="tables-data.php" method="POST">
+                              <input type="hidden" name="newsId" value="" >
+                              <button type="submit" name="edit" class="btn btn-outline-danger">
+                                <span class=" ri-edit-box-line"></span>
+                              </button>
+                            </form> -->
+                          </td>
                         </tr>
                       <?php
                         }

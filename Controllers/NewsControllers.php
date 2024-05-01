@@ -96,7 +96,7 @@ class NewsControllers
             }
             
             // Prepare delete query
-            $query = "DELETE FROM news WHERE newsId = ?";
+            $query = "DELETE FROM news WHERE id = ?";
             $stmt = $this->db->getConnection()->prepare($query);
             
             if (!$stmt) {
