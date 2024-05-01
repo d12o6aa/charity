@@ -1,7 +1,8 @@
 <?php
 
-require_once '../../Controllers/ContactControllers.php';
+require_once '../../Controllers/ContactController.php';
 require_once '../../Models/contact.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
   }

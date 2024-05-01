@@ -7,7 +7,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Start session
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
 
 // Redirect if user is not logged in
 if (!isset($_SESSION["userId"])) {

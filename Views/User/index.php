@@ -1,7 +1,7 @@
 <?php
 
 
-require_once '../../Controllers/ContactControllers.php';
+require_once '../../Controllers/ContactController.php';
 require_once '../../Models/contact.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -43,15 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
 
 
 ?>
-
-
-
-
-
-
-
-
-
 
 <!doctype html>
 <html lang="en">
@@ -172,7 +163,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link click-scroll" href="#section_6">Contact</a>
+                            <a class="nav-link click-scroll" href="contact.php">Contact</a>
                         </li>
 
                         <li class="nav-item ms-3">
