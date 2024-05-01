@@ -138,7 +138,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link smoothscroll" href="index.php#section_6">Contact</a>
+                            <a class="nav-link smoothscroll" href="contact.php">Contact</a>
                         </li>
 
                         <li class="nav-item ms-3">

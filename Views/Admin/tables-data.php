@@ -1,3 +1,25 @@
+<?php
+
+require_once '../../Controllers/NewsControllers.php';
+require_once '../../Models/news.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+
+// if (!isset($_SESSION["userId"])) {
+//    header("Location: ../Admin/pages-login.php");
+// }
+
+$NewsControllers = new NewsControllers;
+
+$news = $NewsControllers->getNews();
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +27,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Tables / Data - NiceAdmin Bootstrap Template</title>
+  <title>Tables / Data </title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -184,29 +206,40 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">Datatables</h5>
-              <!-- <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable. Check for <a href="https://fiduswriter.github.io/simple-datatables/demos/" target="_blank">more examples</a>.</p> -->
 
               <!-- Table with stripped rows -->
               <table class="table datatable">
                 <thead>
                   <tr>
                     <th>
-                      <b>N</b>ame
+                      <b>T</b>itle
                     </th>
-                    <th>Ext.</th>
-                    <th>City</th>
-                    <th data-type="date" data-format="YYYY/DD/MM">Start Date</th>
-                    <th>Completion</th>
+                    <th>Id</th>
+                    <th>Categories</th>
+                    <th data-type="date" data-format="YYYY/DD/MM">Date</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>Unity Pugh</td>
-                    <td>9958</td>
-                    <td>Curicó</td>
-                    <td>2005/02/11</td>
-                    <td>37%</td>
-                  </tr>
+                  <?php 
+                    if (count($news) == 0)
+                    {
+                        echo "no available news";
+                    }
+                    else
+                    {
+                        foreach($news as $new)
+                        { ?>
+                        <tr>
+                          <td> <?php echo $new['title'] ?> </td>
+                          <td> <?php echo $new['id'] ?> </td>
+                          <td> <?php echo $new['categories'] ?> </td>
+                          <td> <?php echo $new['date'] ?> </td>
+                        </tr>
+                      <?php
+                        }
+                    }
+                  ?>
+                  
                 </tbody>
               </table>
               <!-- End Table with stripped rows -->
@@ -222,16 +255,8 @@
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-    </div>
+    
+    
   </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
