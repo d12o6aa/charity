@@ -1,3 +1,58 @@
+<?php
+
+
+require_once '../../Controllers/ContactControllers.php';
+require_once '../../Models/contact.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+  }
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+$contactcontroller = new ContactControllers;
+// $contact = $contactcontroller->addContact();
+$errMsg = "";
+if ($_SERVER["REQUEST_METHOD"] === "POST")
+{
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+    $email = $_POST['email'];
+    $message = $_POST['message'];
+    if (empty($fname) || empty($lname) || empty($email) || empty($message)) {
+        $errMsg = "All fields are required!";
+    } else {
+        $contact = new Contact();
+
+        $contact->setFname($fname);
+        $contact->setLname($lname);
+        $contact->setEmail($email);
+        $contact->setMessage($message);
+        try {
+            if ($contactcontroller->addContact($contact)) {
+                header("Location: index.php");
+                exit;
+            } else {
+                $errMsg = "Failed to send the Message. Please try again.";
+            }
+        } catch (Exception $e) {
+            $errMsg = "Error: " . $e->getMessage();
+        }
+    }
+    
+}
+
+
+?>
+
+
+
+
+
+
+
+
+
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -900,17 +955,24 @@ https://templatemo.com/tm-581-kind-heart-charity
                                 </p>
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-12">
-                                        <input type="text" name="first-name" id="first-name" class="form-control" placeholder="Jack" required>
+                                        <input type="text" name="fname" id="first-name" class="form-control" placeholder="Jack" required>
                                     </div>
 
                                     <div class="col-lg-6 col-md-6 col-12">
-                                        <input type="text" name="last-name" id="last-name" class="form-control" placeholder="Doe" required>
+                                        <input type="text" name="lname" id="last-name" class="form-control" placeholder="Doe" required>
                                     </div>
                                 </div>
 
                                 <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="Jackdoe@gmail.com" required>
 
                                 <textarea name="message" rows="5" class="form-control" id="message" placeholder="What can we help you?"></textarea>
+                                <?php if ($errMsg != "") { ?>
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <i class="bi bi-exclamation-triangle me-1"></i>
+                                        <?php echo $errMsg; ?>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                <?php } ?>
 
                                 <button type="submit" class="form-control">Send Message</button>
                             </form>

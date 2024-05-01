@@ -166,133 +166,75 @@ https://templatemo.com/tm-581-kind-heart-charity
             </section>
 
             
-            <section class="news-section section-padding">
-                <div class="container">
-                    <div class="row">
+          
 
-                    <?php 
-                        if (count($news) == 0)
-                        {
-                            echo "no available news";
-                        }
-                        else
-                        {
-                            foreach($news as $new)
-                            { ?>
-                                <div class="col-lg-7 col-12">
-                            <div class="news-block">
-                                <div class="news-block-top">
-                                    <a href="news-detail.php">
-                                        <img src="<?php echo $new["img"]?>" class="news-image img-fluid" alt="">
-                                    </a>
 
-                                    <div class="news-category-block">
-                                        <!-- <a href="#" class="category-block-link">
-                                            Lifestyle,
-                                        </a> -->
-
-                                        <a href="#" class="category-block-link">
-                                            <?php echo $new["title"] ?>
+    <div class="center-content">
+        <?php 
+            if (count($news) == 0)
+            {
+                echo "no available news";
+            }
+            else
+            {
+                foreach($news as $new)
+                { ?>
+                <section class="news-section section-padding">
+                    <div class="container ">
+                        <div class="row ">
+                            <div class="col-lg-7 col-12">
+                                <div class="news-block">
+                                    <div class="news-block-top">
+                                        <a href="news-detail.php">
+                                            <img src="<?php echo $new["img"]?>" class="news-image img-fluid" alt="">
                                         </a>
+                                        <div class="news-category-block">
+                                            <a href="#" class="category-block-link">
+                                                <?php echo $new["categories"] ?>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="news-block-info">
+                                        <div class="d-flex mt-2">
+                                            <div class="news-block-date">
+                                                <p>
+                                                    <i class="bi-calendar4 custom-icon me-1"></i>
+                                                    <?php echo $new["date"] ?>
+                                                </p>
+                                            </div>
+
+                                            <div class="news-block-author mx-5">
+                                                <p>
+                                                    <i class="bi-person custom-icon me-1"></i>
+                                                    By Admin
+                                                </p>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="news-block-title mb-2">
+                                            <h4><a href="news-detail.php" class="news-block-title-link"><?php echo $new["title"] ?></a></h4>
+                                        </div>
+
+                                        <div class="news-block-body">
+                                            <p><?php echo $new["newsDesc"] ?></p>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="news-block-info">
-                                    <div class="d-flex mt-2">
-                                        <div class="news-block-date">
-                                            <p>
-                                                <i class="bi-calendar4 custom-icon me-1"></i>
-                                                <?php echo $new["date"] ?>
-                                            </p>
-                                        </div>
-
-                                        <div class="news-block-author mx-5">
-                                            <p>
-                                                <i class="bi-person custom-icon me-1"></i>
-                                                By Admin
-                                            </p>
-                                        </div>
-
-                                        <!-- <div class="news-block-comment">
-                                            <p>
-                                                <i class="bi-chat-left custom-icon me-1"></i>
-                                                32 Comments
-                                            </p>
-                                        </div> -->
-                                    </div>
-
-                                    <div class="news-block-title mb-2">
-                                        <h4><a href="news-detail.php" class="news-block-title-link"><?php echo $new["title"] ?></a></h4>
-                                    </div>
-
-                                    <div class="news-block-body">
-                                        <p><?php echo $new["newsDesc"] ?></p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- <div class="news-block mt-3">
-                                <div class="news-block-top">
-                                    <a href="news-detail.php">
-                                        <img src="images/news/medium-shot-people-collecting-foodstuff.jpg" class="news-image img-fluid" alt="">
-                                    </a>
-
-                                    <div class="news-category-block">
-                                        <a href="#" class="category-block-link">
-                                            Food,
-                                        </a>
-
-                                        <a href="#" class="category-block-link">
-                                            Donation,
-                                        </a>
-
-                                        <a href="#" class="category-block-link">
-                                            Caring
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="news-block-info">
-                                    <div class="d-flex mt-2">
-                                        <div class="news-block-date">
-                                            <p>
-                                                <i class="bi-calendar4 custom-icon me-1"></i>
-                                                October 12, 2036
-                                            </p>
-                                        </div>
-
-                                        <div class="news-block-author mx-5">
-                                            <p>
-                                                <i class="bi-person custom-icon me-1"></i>
-                                                By Admin
-                                            </p>
-                                        </div>
-
-                                        <div class="news-block-comment">
-                                            <p>
-                                                <i class="bi-chat-left custom-icon me-1"></i>
-                                                35 Comments
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <div class="news-block-title mb-2">
-                                        <h4><a href="news-detail.php" class="news-block-title-link">Food donation area</a></h4>
-                                    </div>
-
-                                    <div class="news-block-body">
-                                        <p>You are not allowed to redistribute this template ZIP file on any other template collection website. Please <a href="https://templatemo.com/contact" target="_blank">contact TemplateMo</a> for more information.</p>
-                                    </div>
-                                </div>
-                            </div> -->
-                        </div> <?php
-                            }
-                        }
-                    
-                    ?>
+                            </div> 
+                        </div>
+                    </div>
+                </section>
+            <?php
+                }
+            }
+                        
+        ?>
+    </div>
                         
 
-                        <div class="col-lg-4 col-12 mx-auto mt-4 mt-lg-0">
+                        <!-- <div class="col-lg-4 col-12 mx-auto mt-4 mt-lg-0">
                             <form class="custom-form search-form" action="#" method="post" role="form">
                                 <input class="form-control" type="search" placeholder="Search" aria-label="Search">
 
@@ -415,11 +357,9 @@ https://templatemo.com/tm-581-kind-heart-charity
                                     <button type="submit" class="form-control">Subscribe</button>
                                 </div>
                             </form>
-                        </div>
+                        </div> -->
 
-                    </div>
-                </div>
-            </section>
+                   
         </main>
 
         <footer class="site-footer">
@@ -478,10 +418,10 @@ https://templatemo.com/tm-581-kind-heart-charity
                 <div class="container">
                     <div class="row">
 
-                        <div class="col-lg-6 col-md-7 col-12">
+                        <!-- <div class="col-lg-6 col-md-7 col-12">
                             <p class="copyright-text mb-0">Copyright © 2036 <a href="#">Kind Heart</a> Charity Org.
                         	Design: <a href="https://templatemo.com" target="_blank">TemplateMo</a></p>
-                        </div>
+                        </div> -->
                         
                         <div class="col-lg-6 col-md-5 col-12 d-flex justify-content-center align-items-center mx-auto">
                             <ul class="social-icon">
