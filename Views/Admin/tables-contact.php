@@ -1,7 +1,7 @@
 <?php
 
-require_once '../../Controllers/NewsControllers.php';
-require_once '../../Models/news.php';
+require_once '../../Controllers/ContactController.php';
+require_once '../../Models/contact.php';
 
 if (session_status() === PHP_SESSION_NONE) {
   session_start();
@@ -11,28 +11,13 @@ if (session_status() === PHP_SESSION_NONE) {
 //    header("Location: ../Admin/pages-login.php");
 // }
 
-$NewsControllers = new NewsControllers;
+$ContactController = new ContactControllers;
 
-$news = $NewsControllers->getNews();
-$errMsg = "";
-$successMsg = "";
-if (isset($_POST['delete']))
-{
-  if (!empty($_POST['newsId']))
-  {
-    if ($NewsControllers->deleteNews($_POST['newsId']))
-    {
-      $successMsg = "News delete successfully!";
-    }
-    else
-    {
-      $errMsg = "Failed to delete news. Please try again.";
-    }
-  }
-}
+$contacts = $ContactController->getContacts();
 
 
 ?>
+
 
 
 
@@ -43,7 +28,7 @@ if (isset($_POST['delete']))
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Tables / Data </title>
+  <title>Tables / General - NiceAdmin Bootstrap Template</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -88,99 +73,58 @@ if (isset($_POST['delete']))
   <main id="main" class="main">
 
     <div class="pagetitle">
-      <h1>Data Tables</h1>
+      <h1>General Tables</h1>
       <nav>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="index.php">Home</a></li>
           <li class="breadcrumb-item">Tables</li>
-          <li class="breadcrumb-item active">Data</li>
+          <li class="breadcrumb-item active">General</li>
         </ol>
       </nav>
     </div><!-- End Page Title -->
 
-    
     <section class="section">
       <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-6">
+
 
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Datatables</h5>
-
-              <!-- Table with stripped rows -->
-              
-              <?php 
-                if ($errMsg != "") { ?>
-                  <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <i class="bi bi-exclamation-octagon me-1"></i>
-                        <?php echo $errMsg; ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                  </div>
-                <?php } 
-                else if ($successMsg != "")
-                  {
-                    ?>
-                      <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <i class="bi bi-check-circle me-1"></i>
-                          <?php echo $successMsg; ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                      </div>
-                    <?php
-                  }
-              ?>
-              <table class="table datatable">
+              <h5 class="card-title">Contact Table</h5>
+              <!-- Bordered Table -->
+              <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th>
-                      <b>T</b>itle
-                    </th>
-                    <th>Id</th>
-                    <th>Categories</th>
-                    <th data-type="date" data-format="YYYY/DD/MM">Date</th>
-                    <th>Action</th>
+                    <th scope="col">Id</th>
+                    <th scope="col">FName</th>
+                    <th scope="col">LName</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Message</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <?php 
-                    if (count($news) == 0)
+                  <?php
+                    foreach($contacts as $contact)
                     {
-                        echo "no available news";
-                    }
-                    else
-                    {
-                        foreach($news as $new)
-                        { ?>
+                      ?>
                         <tr>
-                          <td> <?php echo $new['title'] ?> </td>
-                          <td> <?php echo $new['id'] ?> </td>
-                          <td> <?php echo $new['categories'] ?> </td>
-                          <td> <?php echo $new['date'] ?> </td>
-                          <td> 
-                            <form action="index.php" method="POST">
-                              <input type="hidden" name="newsId" value="<?php echo $new['id'] ?>" >
-                              <button type="submit" name="delete" class="btn btn-outline-danger">
-                                <span class="tf-icons bx bx-trash"></span>
-                              </button>
-                            </form>
-                            <!-- <form action="tables-data.php" method="POST">
-                              <input type="hidden" name="newsId" value="" >
-                              <button type="submit" name="edit" class="btn btn-outline-danger">
-                                <span class=" ri-edit-box-line"></span>
-                              </button>
-                            </form> -->
-                          </td>
+                          <th scope="row"> <?php echo $contact['id'] ?> </th>
+                          <td><?php echo $contact['fname'] ?></td>
+                          <td>D<?php echo $contact['lname'] ?></td>
+                          <td><?php echo $contact['email'] ?></td>
+                          <td><?php echo $contact['message'] ?></td>
                         </tr>
                       <?php
-                        }
                     }
                   ?>
                   
+                  
                 </tbody>
               </table>
-              <!-- End Table with stripped rows -->
-
+              <!-- End Bordered Table -->
             </div>
           </div>
+
 
         </div>
       </div>
@@ -190,7 +134,6 @@ if (isset($_POST['delete']))
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
-    
     
   </footer><!-- End Footer -->
 

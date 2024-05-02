@@ -52,18 +52,26 @@ class ContactControllers
             $this->db->closeConnection(); // Ensure connection is always closed
         }
     }
+
+    public function getContacts()
+    {
+        if ($this->db->openConnection())
+        {
+            $query = "SELECT * FROM contact";
+            $result = $this->db->select($query);
+            $this->db->closeConnection(); // Close connection after fetching data
+            return $result;
+        }
+        else
+        {
+            echo "Error in database connection";
+            return false;
+        }
+    }
     
 
     
-
-
-
-    
-
-    
-
-
-     
+  
 
 
 }
