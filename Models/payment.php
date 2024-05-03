@@ -1,5 +1,5 @@
 <?php
-    class Donor{
+    class Payment{
         private $id;
         private $paypalEmail;
         private $paypalPassord;
@@ -53,7 +53,7 @@
         {
             $this->paypalEmail = $paypalEmail;
         }
-        
+
         public function setPaypalPassord($paypalPassord)
         {
             $this->paypalPassord = $paypalPassord;
