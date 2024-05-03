@@ -1,15 +1,17 @@
 <?php
     class Payment{
         private $id;
+        private $donorId;
         private $paypalEmail;
         private $paypalPassord;
         private $creaditCard;
         private $expirtDate;
         private $CCV;
 
-        function __construct($id = null, $paypalEmail = null, $paypalPassord = null, $creaditCard = null, $expirtDate = null, $CCV = null)
+        function __construct($id = null, $donorId = null, $paypalEmail = null, $paypalPassord = null, $creaditCard = null, $expirtDate = null, $CCV = null)
         {
             $this->id = $id;
+            $this->donorId = $donorId;
             $this->paypalEmail = $paypalEmail;
             $this->paypalPassord = $paypalPassord;
             $this->creaditCard = $creaditCard;
@@ -20,6 +22,11 @@
         public function getId()
         {
             return $this->id;
+        }
+
+        public function getDonorId()
+        {
+            return $this->donorId;
         }
 
         public function getPaypalEmail()
@@ -52,6 +59,11 @@
         public function setPaypalEmail($paypalEmail)
         {
             $this->paypalEmail = $paypalEmail;
+        }
+
+        public function setDonorId($donorId)
+        {
+            $this->donorId = $donorId;
         }
 
         public function setPaypalPassord($paypalPassord)

@@ -1,7 +1,10 @@
 <?php
 
-require_once '../../Controllers/AuthControllers.php';
-require_once '../../Models/news.php';
+require_once '../../Controllers/UserController.php';
+require_once '../../Models/donor.php';
+require_once '../../Models/donation.php';
+require_once '../../Models/payment.php';
+
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -11,68 +14,115 @@ if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
 
-// Redirect if user is not logged in
-if (!isset($_SESSION["userId"])) {
-    header("Location: pages-login.php");
-    exit;
-}
-
 // Initialize variables
 $errMsg = "";
 $successMsg = "";
-$newscontrollers = new NewsControllers;
-$categories = $newscontrollers->getcategories();
+$userController = new UserController;
 
 // Process form submission
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Validate form data
-    $date = $_POST['date'];
-    $title = $_POST['title'];
-    $newsDesc = $_POST['newsDesc'];
-    $categorie = $_POST['categories'];
-    
-    if (empty($date) || empty($title) || empty($newsDesc)) {
-        $errMsg = "All fields are required!";
-    } else {
-        // Handle file upload
-        if ($_FILES['img']['error'] === UPLOAD_ERR_OK) {
-            $tmp_name = $_FILES['img']['tmp_name'];
-            $img_name = $_FILES['img']['name'];
-            $location = "../images/" . date("h-i-s") . $img_name;
-            
-            if (move_uploaded_file($tmp_name, $location)) {
-                // Create News object
-                $news = new News;
-                // $news->setUserId($_SESSION["userId"]);
-                $news->setDate($date);
-                $news->setTitle($title);
-                $news->setNewsDesc($newsDesc);
-                $news->setCategories($categorie);
-                $news->setImg($location);
-                
-                // Add news to database
-                try {
-                    if ($newscontrollers->addNews($news)) {
-                        $successMsg = "News added successfully!";
-                        header("Location: index.php");
-                        exit;
-                    } else {
-                        $errMsg = "Failed to add news. Please try again.";
-                    }
-                } catch (Exception $e) {
-                    $errMsg = "Error: " . $e->getMessage();
-                }
-            } else {
-                $errMsg = "Failed to upload image.";
-            }
-        } else {
-            $uploadError = $_FILES['img']['error'];
-            if ($uploadError !== UPLOAD_ERR_OK) {
-                $errMsg = "Failed to upload image. Error code: $uploadError";
-            }
+if ($_SERVER["REQUEST_METHOD"] === "POST")
+{
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $amount = $_POST['amount'];
 
+    $postalCode = $_POST['postalCode'];
+    $location = $_POST['location'];
+    $phone = $_POST['phone'];
+    $city = $_POST['city'];
+
+    $paypalEmail = $_POST['paypalEmail'];
+    $paypalPassord = $_POST['paypalPassord'];
+
+    $creaditCard = $_POST['creaditCard'];
+    $expirtDate = $_POST['expirtDate'];
+    $CCV = $_POST['CCV'];
+
+    if (empty($creaditCard) || empty($expirtDate) || empty($CCV) || empty($postalCode) || empty($location) || empty($phone) || empty($city)) {
+        if (!empty($paypalEmail) && !empty($paypalPassord))
+        {   $creaditCard = null;
+            $expirtDate = null;
+            $CCV = null;
+            $postalCode = null;
+            $location = null;
+            $phone = null;
+            $city = null;
+        }
+        else {
+            $errMsg = "this fields are required!";
+        }
+    } 
+    else if (empty($postalCode) || empty($location) || empty($phone) || empty($city) || empty($paypalEmail) || empty($paypalPassord))
+    {
+        if(!empty($creaditCard) && !empty($expirtDate) && !empty($CCV))
+        {
+            $postalCode = null;
+            $location = null;
+            $phone = null;
+            $city = null;
+            $paypalEmail = null;
+            $paypalPassord = null;
+        }
+        else
+        {
+            $errMsg = "this fields are required!";
         }
     }
+    else if (empty($creaditCard) || empty($expirtDate) || empty($CCV) || empty($paypalEmail) || empty($paypalPassord))
+    {
+        if (!empty($postalCode) && !empty($location) && !empty($phone) && !empty($city))
+        {
+            $creaditCard = null;
+            $expirtDate = null;
+            $CCV = null;
+            $paypalEmail = null;
+            $paypalPassord = null;
+        }
+        else
+        {
+            $errMsg = "this fields are required!";
+        }
+    }
+
+    if (empty($name) || empty($email) || empty($amount)) {
+        $errMsg = "this fields are required!";
+    }
+    else {
+
+        $donor = new Donor();
+        $payment = new Payment();
+        $donation = new Donation();
+
+        $donor->setName($name);
+        $donor->setEmail($email);
+        $donor->setCity($city);
+        $donor->setPhone($phone);
+        $donor->setLocation($location);
+        $donor->setPostalCode($postalCode);
+
+        $donation->setAmount($amount);
+        $donation->setDonorId($donor->getId());
+
+        $payment->setPaypalEmail($paypalEmail);
+        $payment->setPaypalPassord($paypalPassord);
+        $payment->setCreaditCard($creaditCard);
+        $payment->setExpirtDate($expirtDate);
+        $payment->setCCV($CCV);
+        $payment->setDonorId($donor->getId());
+
+        
+        try {
+            if (userController->addDonor($donor)) {
+                header("Location: index.php");
+                exit;
+            } else {
+                $errMsg = "Failed to send the Message. Please try again.";
+            }
+        } catch (Exception $e) {
+            $errMsg = "Error: " . $e->getMessage();
+        }
+    }
+    
 }
 
 ?>
