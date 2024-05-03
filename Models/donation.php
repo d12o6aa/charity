@@ -2,13 +2,13 @@
     class Donation{
         private $id;
         private $amoun;
-        private $donorId;
+        // private $donorId;
 
 
-        function __construct($id = null, $donorId = null, $amoun = null)
+        function __construct($id = null, $amoun = null)
         {
             $this->id = $id;
-            $this->donorId = $donorId;
+            // $this->donorId = $donorId;
             $this->amoun = $amoun;
         }
 
@@ -17,10 +17,10 @@
             return $this->id;
         }
 
-        public function getDonorId()
-        {
-            return $this->donorId;
-        }
+        // public function getDonorId()
+        // {
+        //     return $this->donorId;
+        // }
 
         public function getAmoun()
         {
@@ -35,10 +35,10 @@
             $this->amoun = $amoun;
         }
 
-        public function setDonorId($donorId)
-        {
-            $this->donorId = $donorId;
-        }
+        // public function setDonorId($donorId)
+        // {
+        //     $this->donorId = $donorId;
+        // }
 
         
     }

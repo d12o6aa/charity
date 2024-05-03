@@ -31,8 +31,18 @@
         </a>
         <ul id="tables-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="tables-general.php">
-              <i class="bi bi-circle"></i><span>General Tables</span>
+            <a href="tables-contact.php">
+              <i class="bi bi-circle"></i><span>Contact Tables</span>
+            </a>
+          </li>
+          <li>
+            <a href="tables-volunteer.php">
+              <i class="bi bi-circle"></i><span>Volunteer Tables</span>
+            </a>
+          </li>
+          <li>
+            <a href="tables-donor.php">
+              <i class="bi bi-circle"></i><span>Donor Tables</span>
             </a>
           </li>
           <li>

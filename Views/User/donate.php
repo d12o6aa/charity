@@ -2,8 +2,7 @@
 
 require_once '../../Controllers/UserController.php';
 require_once '../../Models/donor.php';
-require_once '../../Models/donation.php';
-require_once '../../Models/payment.php';
+
 
 
 error_reporting(E_ALL);
@@ -38,51 +37,51 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
     $expirtDate = $_POST['expirtDate'];
     $CCV = $_POST['CCV'];
 
-    if (empty($creaditCard) || empty($expirtDate) || empty($CCV) || empty($postalCode) || empty($location) || empty($phone) || empty($city)) {
-        if (!empty($paypalEmail) && !empty($paypalPassord))
-        {   $creaditCard = null;
-            $expirtDate = null;
-            $CCV = null;
-            $postalCode = null;
-            $location = null;
-            $phone = null;
-            $city = null;
-        }
-        else {
-            $errMsg = "this fields are required!";
-        }
-    } 
-    else if (empty($postalCode) || empty($location) || empty($phone) || empty($city) || empty($paypalEmail) || empty($paypalPassord))
-    {
-        if(!empty($creaditCard) && !empty($expirtDate) && !empty($CCV))
-        {
-            $postalCode = null;
-            $location = null;
-            $phone = null;
-            $city = null;
-            $paypalEmail = null;
-            $paypalPassord = null;
-        }
-        else
-        {
-            $errMsg = "this fields are required!";
-        }
-    }
-    else if (empty($creaditCard) || empty($expirtDate) || empty($CCV) || empty($paypalEmail) || empty($paypalPassord))
-    {
-        if (!empty($postalCode) && !empty($location) && !empty($phone) && !empty($city))
-        {
-            $creaditCard = null;
-            $expirtDate = null;
-            $CCV = null;
-            $paypalEmail = null;
-            $paypalPassord = null;
-        }
-        else
-        {
-            $errMsg = "this fields are required!";
-        }
-    }
+    // if (empty($creaditCard) || empty($expirtDate) || empty($CCV) || empty($postalCode) || empty($location) || empty($phone) || empty($city)) {
+    //     if (!empty($paypalEmail) && !empty($paypalPassord))
+    //     {   $creaditCard = null;
+    //         $expirtDate = null;
+    //         $CCV = null;
+    //         $postalCode = null;
+    //         $location = null;
+    //         $phone = null;
+    //         $city = null;
+    //     }
+    //     else {
+    //         $errMsg = "this fields are required!";
+    //     }
+    // } 
+    // else if (empty($postalCode) || empty($location) || empty($phone) || empty($city) || empty($paypalEmail) || empty($paypalPassord))
+    // {
+    //     if(!empty($creaditCard) && !empty($expirtDate) && !empty($CCV))
+    //     {
+    //         $postalCode = null;
+    //         $location = null;
+    //         $phone = null;
+    //         $city = null;
+    //         $paypalEmail = null;
+    //         $paypalPassord = null;
+    //     }
+    //     else
+    //     {
+    //         $errMsg = "this fields are required!";
+    //     }
+    // }
+    // else if (empty($creaditCard) || empty($expirtDate) || empty($CCV) || empty($paypalEmail) || empty($paypalPassord))
+    // {
+    //     if (!empty($postalCode) && !empty($location) && !empty($phone) && !empty($city))
+    //     {
+    //         $creaditCard = null;
+    //         $expirtDate = null;
+    //         $CCV = null;
+    //         $paypalEmail = null;
+    //         $paypalPassord = null;
+    //     }
+    //     else
+    //     {
+    //         $errMsg = "this fields are required!";
+    //     }
+    // }
 
     if (empty($name) || empty($email) || empty($amount)) {
         $errMsg = "this fields are required!";
@@ -90,9 +89,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
     else {
 
         $donor = new Donor();
-        $payment = new Payment();
-        $donation = new Donation();
+        
+        // if(!empty($city)){$donor->setCity(null);}
+        // else{$donor->setCity($city);}
 
+        // if(!empty($phone)){$donor->setPhone(null);}
+        // else{$donor->setPhone($phone);}
+
+        // if(!empty($location)){$donor->setLocation(null);}
+        // else{$donor->setLocation($location);}
+
+        // if(!empty($postalCode)){$donor->setPostalCode(null);}
+        // else{$donor->setPostalCode($postalCode);}
+        
         $donor->setName($name);
         $donor->setEmail($email);
         $donor->setCity($city);
@@ -100,23 +109,26 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
         $donor->setLocation($location);
         $donor->setPostalCode($postalCode);
 
-        $donation->setAmount($amount);
-        $donation->setDonorId($donor->getId());
+        $donor->setAmount($amount);
 
-        $payment->setPaypalEmail($paypalEmail);
-        $payment->setPaypalPassord($paypalPassord);
-        $payment->setCreaditCard($creaditCard);
-        $payment->setExpirtDate($expirtDate);
-        $payment->setCCV($CCV);
-        $payment->setDonorId($donor->getId());
+        $donor->setPaypalEmail($paypalEmail);
+        $donor->setPaypalPassord($paypalPassord);
+        $donor->setCreaditCard($creaditCard);
+        $donor->setExpirtDate($expirtDate);
+        $donor->setCCV($CCV);
+        $donor->setDate(date("h-i-s"));
 
         
         try {
-            if (userController->addDonor($donor)) {
+            if ($userController->addDonor($donor)) 
+            {
                 header("Location: index.php");
                 exit;
-            } else {
-                $errMsg = "Failed to send the Message. Please try again.";
+                
+            } 
+            else 
+            {
+                $errMsg = "Failed to Add Donor info. Please try again.";
             }
         } catch (Exception $e) {
             $errMsg = "Error: " . $e->getMessage();
@@ -266,7 +278,15 @@ https://templatemo.com/tm-581-kind-heart-charity
                     <div class="row">
 
                         <div class="col-lg-6 col-12 mx-auto">
-                            <form class="custom-form donate-form" action="#" method="get" role="form">
+
+                            <form class="custom-form donate-form" action="#" method="post" role="form">
+                            <?php if ($errMsg != "") { ?>
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <i class="bi bi-exclamation-triangle me-1"></i>
+                                        <?php echo $errMsg; ?>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                <?php } ?>
                                 <h3 class="mb-4">Make a donation</h3>
 
                                 <div class="row">
@@ -356,7 +376,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                                         <div class="input-group">
                                             <span class="input-group-text" id="basic-addon1">$</span>
                                             
-                                            <input type="text" class="form-control" placeholder="Custom amount" aria-label="Username" aria-describedby="basic-addon1">
+                                            <input type="text" name="amount" class="form-control" placeholder="Custom amount" aria-label="Username" aria-describedby="basic-addon1">
                                         </div>
                                     </div>
 
@@ -365,11 +385,11 @@ https://templatemo.com/tm-581-kind-heart-charity
                                     </div>
 
                                     <div class="col-lg-6 col-12 mt-2">
-                                        <input type="text" name="donation-name" id="donation-name" class="form-control" placeholder="Jack Doe" required>
+                                        <input type="text" name="name" id="donation-name" class="form-control" placeholder="Jack Doe" required>
                                     </div>
 
                                     <div class="col-lg-6 col-12 mt-2">
-                                        <input type="email" name="donation-email" id="donation-email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="Jackdoe@gmail.com" required>
+                                        <input type="email" name="email" id="donation-email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="Jackdoe@gmail.com" required>
                                     </div>
 
                                     <div class="col-lg-12 col-12">
@@ -406,15 +426,15 @@ https://templatemo.com/tm-581-kind-heart-charity
                                             <div id="creditCardForm" style="display: none;">
                                                 <div class="form-group">
                                                     <label for="creditCardNumber">Credit Card Number</label>
-                                                    <input type="text" class="form-control" id="creditCardNumber" placeholder="Enter your credit card number">
+                                                    <input type="text" name="creaditCard" class="form-control" id="creditCardNumber" placeholder="Enter your credit card number">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="expiryDate">Expiry Date</label>
-                                                    <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY">
+                                                    <input type="text" name="expirtDate" class="form-control" id="expiryDate" placeholder="MM/YY">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="cvv">CVV</label>
-                                                    <input type="text" class="form-control" id="cvv" placeholder="CVV">
+                                                    <input type="text" name="CCV" class="form-control" id="cvv" placeholder="CVV">
                                                 </div>
                                             </div>
                                     
@@ -423,30 +443,30 @@ https://templatemo.com/tm-581-kind-heart-charity
                                             <div id="paypalForm" style="display: none;">
                                                 <div class="form-group">
                                                     <label for="paypalEmail">PayPal Email</label>
-                                                    <input type="email" class="form-control" id="paypalEmail" placeholder="Enter your PayPal email">
+                                                    <input type="email" name="paypalEmail" class="form-control" id="paypalEmail" placeholder="Enter your PayPal email">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="paypalPassword">Password</label>
-                                                    <input type="password" class="form-control" id="paypalPassword" placeholder="Enter your PayPal password">
+                                                    <input type="password" name="paypalPassord" class="form-control" id="paypalPassword" placeholder="Enter your PayPal password">
                                                 </div>
                                             </div>
                                             <!-- PayPal Form Fields -->
                                             <div id="cashForm" style="display: none;">
                                                 <div class="form-group">
                                                     <label for="City">City</label>
-                                                    <input type="text" class="form-control" id="City" placeholder="Enter your City">
+                                                    <input type="text" name="city" class="form-control" id="City" placeholder="Enter your City">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="Address">Address Line</label>
-                                                    <input type="text" class="form-control" id="Address" placeholder="Enter your Address">
+                                                    <input type="text" name="location" class="form-control" id="Address" placeholder="Enter your Address">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="PostalCode<">Postal Code </label>
-                                                    <input type="tel" class="form-control" id="PostalCode<" placeholder="Enter your Postal Code">
+                                                    <input type="text" name="postalCode" class="form-control" id="PostalCode<" placeholder="Enter your Postal Code">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="PhoneNumber">Phone Number</label>
-                                                    <input type="password" class="form-control" id="PhoneNumber" placeholder="Enter your Phone Number">
+                                                    <input type="text" name="phone" class="form-control" id="PhoneNumber" placeholder="Enter your Phone Number">
                                                 </div>
                                             </div>
 

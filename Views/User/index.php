@@ -1,34 +1,38 @@
 <?php
 
 
-require_once '../../Controllers/ContactController.php';
-require_once '../../Models/contact.php';
+require_once '../../Controllers/UserController.php';
+require_once '../../Models/volunteer.php';
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
   }
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$contactcontroller = new ContactControllers;
+$volunteers = new UserController;
 // $contact = $contactcontroller->addContact();
 $errMsg = "";
 if ($_SERVER["REQUEST_METHOD"] === "POST")
 {
-    $fname = $_POST['fname'];
-    $lname = $_POST['lname'];
+    $name = $_POST['name'];
     $email = $_POST['email'];
-    $message = $_POST['message'];
-    if (empty($fname) || empty($lname) || empty($email) || empty($message)) {
+    $subject = $_POST['subject'];
+    $comment = $_POST['comment'];
+    $phone = $_POST['phone'];
+    $location = $_POST['location'];
+    if (empty($name) || empty($email) || empty($subject) || empty($phone) || empty($location)) {
         $errMsg = "All fields are required!";
     } else {
-        $contact = new Contact();
+        $volunteer = new Volunteer();
 
-        $contact->setFname($fname);
-        $contact->setLname($lname);
-        $contact->setEmail($email);
-        $contact->setMessage($message);
+        $volunteer->setName($name);
+        $volunteer->setEmail($email);
+        $volunteer->setSubject($subject);
+        $volunteer->setComment($comment);
+        $volunteer->setPhone($phone);
+        $volunteer->setLocation($location);
         try {
-            if ($contactcontroller->addContact($contact)) {
+            if ($volunteers->addVolunteer($volunteer)) {
                 header("Location: index.php");
                 exit;
             } else {
@@ -523,26 +527,33 @@ https://templatemo.com/tm-581-kind-heart-charity
                             <h2 class="text-white mb-4">Volunteer</h2>
 
                             <form class="custom-form volunteer-form mb-5 mb-lg-0" action="#" method="post" role="form">
+                            <?php if ($errMsg != "") { ?>
+                                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                        <i class="bi bi-exclamation-triangle me-1"></i>
+                                        <?php echo $errMsg; ?>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                <?php } ?>
                                 <h3 class="mb-4">Become a volunteer today</h3>
 
                                 <div class="row">
                                     <div class="col-lg-6 col-12">
-                                        <input type="text" name="volunteer-name" id="volunteer-name" class="form-control" placeholder="Jack Doe" required>
+                                        <input type="text" name="name" id="volunteer-name" class="form-control" placeholder="Jack Doe" required>
                                     </div>
 
                                     <div class="col-lg-6 col-12">    
-                                        <input type="email" name="volunteer-email" id="volunteer-email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="Jackdoe@gmail.com" required>
+                                        <input type="email" name="email" id="volunteer-email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="Jackdoe@gmail.com" required>
                                     </div>
 
                                     <div class="col-lg-6 col-12">
-                                        <input type="text" name="volunteer-subject" id="volunteer-subject" class="form-control" placeholder="Subject" required>
+                                        <input type="text" name="subject" id="volunteer-subject" class="form-control" placeholder="Subject" required>
                                     </div>
 
                                     <div class="col-lg-6 col-12">
-                                        <input type="tel" name="volunteer-phone" id="volunteer-phone" class="form-control" placeholder="+12124567890" required>
+                                        <input type="tel" name="phone" id="volunteer-phone" class="form-control" placeholder="+12124567890" required>
                                     </div>
                                     <div class="col-lg-6 col-12">
-                                        <input type="text" name="volunteer-address" id="volunteer-address" class="form-control" placeholder="Cairo" required>
+                                        <input type="text" name="location" id="volunteer-address" class="form-control" placeholder="Cairo" required>
                                     </div>
 
                                     <!-- <div class="col-lg-6 col-12">
@@ -556,7 +567,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                                     </div> -->
                                 </div>
 
-                                <textarea name="volunteer-message" rows="3" class="form-control" id="volunteer-message" placeholder="Comment (Optional)"></textarea>
+                                <textarea name="comment" rows="3" class="form-control" id="volunteer-message" placeholder="Comment (Optional)"></textarea>
 
                                 <button type="submit" class="form-control">Submit</button>
                             </form>

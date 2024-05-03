@@ -7,8 +7,15 @@
         private $phone;
         private $location;
         private $postalCode;
+        private $paypalEmail;
+        private $paypalPassord;
+        private $creaditCard;
+        private $expirtDate;
+        private $CCV;
+        private $amoun;
+        private $date;
 
-        function __construct($id = null, $name = null, $email = null, $city = null, $phone = null, $location = null, $postalCode = null)
+        function __construct($id = null, $name = null, $email = null, $city = null, $phone = null, $location = null, $postalCode = null, $paypalEmail = null, $paypalPassord = null, $creaditCard = null, $expirtDate = null, $CCV = null, $amoun = null, $date = null)
         {
             $this->id = $id;
             $this->name = $name;
@@ -17,6 +24,13 @@
             $this->phone = $phone;
             $this->location = $location;
             $this->postalCode = $postalCode;
+            $this->amoun = $amoun;
+            $this->paypalEmail = $paypalEmail;
+            $this->paypalPassord = $paypalPassord;
+            $this->creaditCard = $creaditCard;
+            $this->expirtDate = $expirtDate;
+            $this->CCV = $CCV;
+            $this->date = $date;
         }
 
         public function getId()
@@ -53,6 +67,38 @@
         {
             return $this->postalCode;
         }
+        public function getPaypalEmail()
+        {
+            return $this->paypalEmail;
+        }
+
+        public function getPaypalPassord()
+        {
+            return $this->paypalPassord;
+        }
+
+        public function getCreaditCard()
+        {
+            return $this->creaditCard;
+        }
+
+        public function getExpirtDate()
+        {
+            return $this->expirtDate;
+        }
+
+        public function getCCV()
+        {
+            return $this->CCV;
+        }
+        public function getAmoun()
+        {
+            return $this->amoun;
+        }
+        public function getDate()
+        {
+            return $this->date;
+        }
 
         // setter method
 
@@ -79,6 +125,38 @@
         public function setPostalCode($postalCode)
         {
             $this->postalCode = $postalCode;
+        }
+        public function setPaypalEmail($paypalEmail)
+        {
+            $this->paypalEmail = $paypalEmail;
+        }
+
+        public function setPaypalPassord($paypalPassord)
+        {
+            $this->paypalPassord = $paypalPassord;
+        }
+
+        public function setCreaditCard($creaditCard)
+        {
+            $this->creaditCard = $creaditCard;
+        }
+
+        public function setExpirtDate($expirtDate)
+        {
+            $this->expirtDate = $expirtDate;
+        }
+
+        public function setCCV($CCV)
+        {
+            $this->CCV = $CCV;
+        }
+        public function setAmount($amoun)
+        {
+            $this->amoun = $amoun;
+        }
+        public function setDate($date)
+        {
+            $this->date = $date;
         }
     }
 ?>
