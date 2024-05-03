@@ -1,3 +1,73 @@
+<?php
+
+require_once '../../Models/user.php';
+require_once '../../Controllers/AuthController.php';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+
+if (!isset($_SESSION["userId"])) {
+   header("Location: pages-login.php");
+}
+
+$authController = new AuthController;
+$user = new User();
+$errMsg = "";
+if ($_SERVER["REQUEST_METHOD"] === "POST")
+  {
+    $password = $_POST['password'];
+    $newpassword = $_POST['newpassword'];
+    $renewpassword = $_POST['renewpassword'];
+    if (empty($password) || empty($newpassword) || empty($renewpassword))
+    {
+      $errMsg = "All Fields is required !";
+    }
+    else
+    {
+      $userId = $_SESSION["userId"];
+      $currentUser = $authController->getUserById($userId);
+      if (!$currentUser) {
+        $errMsg = "User not found";
+      } else {
+        if ($currentUser->getPassword() == $password)
+        {
+          if($newpassword == $renewpassword)
+          {
+            // $user->setId($userId);
+            $user->setPassword($newpassword);
+            
+            $userId = $_SESSION["userId"];
+            if($authController->edit($userId, $user))
+            {
+                header("Location: index.php");
+                exit;
+            }
+            else
+            {
+                $errMsg = "Failed to change password. Please try again.";
+            }
+
+          }
+          else
+          {
+            $errMsg = "the new password not equal renew password";
+          }
+        }
+        else
+        {
+          $errMsg = "the current Password is incorrect";
+        }
+      }
+    }
+  }
+
+?>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -301,7 +371,14 @@
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
                   <!-- Change Password Form -->
-                  <form>
+                  <form method="post">
+                    <?php if ($errMsg != "") { ?>
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <i class="bi bi-exclamation-triangle me-1"></i>
+                            <?php echo $errMsg; ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php } ?>
 
                     <div class="row mb-3">
                       <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
@@ -344,16 +421,7 @@
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
-    <div class="copyright">
-      &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-    </div>
-    <div class="credits">
-      <!-- All the links in the footer should remain intact. -->
-      <!-- You can delete the links only if you purchased the pro version. -->
-      <!-- Licensing information: https://bootstrapmade.com/license/ -->
-      <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-      Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-    </div>
+    
   </footer><!-- End Footer -->
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

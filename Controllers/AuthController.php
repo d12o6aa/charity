@@ -52,6 +52,85 @@ class AuthController
         }
     }
 
+    // Inside your AuthController class
+    public function getUserById($userId)
+    {
+        try {
+            if (!$this->db->openConnection()) {
+                throw new Exception("Error: Database connection failed");
+            }
+
+            $query = "SELECT * FROM user WHERE id = ?";
+            $stmt = $this->db->getConnection()->prepare($query);
+
+            if (!$stmt) {
+                throw new Exception("Error in preparing statement: " . $this->db->getConnection()->error);
+            }
+
+            $stmt->bind_param("i", $userId);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows === 1) {
+                $user = $result->fetch_object("User");
+                return $user;
+            } else {
+                throw new Exception("User not found");
+            }
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
+            return null;
+        } finally {
+            $stmt->close(); 
+            $this->db->closeConnection();
+        }
+    }
+
+
+
+    public function edit($userId, User $user)
+    {
+        try {
+            // Open database connection
+            if (!$this->db->openConnection()) {
+                throw new Exception("Error: Database connection failed");
+            }
+
+            // Prepare update query
+            $query = "UPDATE user SET password = ? WHERE id = ?";
+            $stmt = $this->db->getConnection()->prepare($query);
+
+            // Check if the statement was prepared successfully
+            if (!$stmt) {
+                throw new Exception("Error in preparing statement: " . $this->db->getConnection()->error);
+            }
+
+            // Bind parameters
+            $password = $user->getPassword();
+            $stmt->bind_param("si", $password, $userId);
+
+            // Execute the statement
+            $result = $stmt->execute();
+
+            // Check if the query executed successfully
+            if ($result) {
+                return true;
+            } else {
+                throw new Exception("Error in executing statement: " . $stmt->error);
+            }
+        } catch (Exception $e) {
+            // Handle or log the error
+            echo "Error: " . $e->getMessage();
+            return false;
+        } finally {
+            // Close the statement and database connection
+            if (isset($stmt)) {
+                $stmt->close();
+            }
+            $this->db->closeConnection();
+        }
+    }
+
 
 
 }

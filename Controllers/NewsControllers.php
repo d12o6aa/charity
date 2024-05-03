@@ -126,7 +126,51 @@ class NewsControllers
     }
 
 
-    
+    public function editNews(News $news)
+    {
+        try {
+            // Open database connection
+            if (!$this->db->openConnection()) {
+                throw new Exception("Error: Database connection failed");
+            }
+            
+            // Prepare update query
+            $query = "UPDATE news SET categories = ?, date = ?, title = ?, newsDesc = ?, img = ? WHERE id = ?";
+            $stmt = $this->db->getConnection()->prepare($query);
+            
+            if (!$stmt) {
+                throw new Exception("Error in preparing statement: " . $this->db->getConnection()->error);
+            }
+            
+            // Bind parameters
+            $categories = $news->getCategories();
+            $date = $news->getDate();
+            $title = $news->getTitle();
+            $newsDesc = $news->getNewsDesc();
+            $img = $news->getImg();
+            $id = $news->getId(); // Assuming you have a method to retrieve the news ID
+            
+            $stmt->bind_param("sssssi", $categories, $date, $title, $newsDesc, $img, $id);
+            
+            // Execute the statement
+            $result = $stmt->execute();
+            
+            // Check if the query executed successfully
+            if ($result) {
+                return true;
+            } else {
+                throw new Exception("Error in executing statement: " . $stmt->error);
+            }
+        } catch (Exception $e) {
+            // Handle or log the error appropriately
+            echo "Error: " . $e->getMessage();
+            return false;
+        } finally {
+            $stmt->close(); // Close the statement
+            $this->db->closeConnection(); // Ensure connection is always closed
+        }
+    }
+
 
 
      

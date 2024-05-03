@@ -19,8 +19,7 @@ $successMsg = "";
 $userController = new UserController;
 
 // Process form submission
-if ($_SERVER["REQUEST_METHOD"] === "POST")
-{
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
     $amount = $_POST['amount'];
@@ -30,112 +29,76 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
     $phone = $_POST['phone'];
     $city = $_POST['city'];
 
-    $paypalEmail = $_POST['paypalEmail'];
-    $paypalPassord = $_POST['paypalPassord'];
+    // Determine the selected payment method
+    $paymentMethod = $_POST['DonationPayment'];
 
-    $creaditCard = $_POST['creaditCard'];
-    $expirtDate = $_POST['expirtDate'];
-    $CCV = $_POST['CCV'];
+    // Initialize variables
+    $creaditCard = null;
+    $expirtDate = null;
+    $CCV = null;
+    $paypalEmail = null;
+    $paypalPassord = null;
 
-    // if (empty($creaditCard) || empty($expirtDate) || empty($CCV) || empty($postalCode) || empty($location) || empty($phone) || empty($city)) {
-    //     if (!empty($paypalEmail) && !empty($paypalPassord))
-    //     {   $creaditCard = null;
-    //         $expirtDate = null;
-    //         $CCV = null;
-    //         $postalCode = null;
-    //         $location = null;
-    //         $phone = null;
-    //         $city = null;
-    //     }
-    //     else {
-    //         $errMsg = "this fields are required!";
-    //     }
-    // } 
-    // else if (empty($postalCode) || empty($location) || empty($phone) || empty($city) || empty($paypalEmail) || empty($paypalPassord))
-    // {
-    //     if(!empty($creaditCard) && !empty($expirtDate) && !empty($CCV))
-    //     {
-    //         $postalCode = null;
-    //         $location = null;
-    //         $phone = null;
-    //         $city = null;
-    //         $paypalEmail = null;
-    //         $paypalPassord = null;
-    //     }
-    //     else
-    //     {
-    //         $errMsg = "this fields are required!";
-    //     }
-    // }
-    // else if (empty($creaditCard) || empty($expirtDate) || empty($CCV) || empty($paypalEmail) || empty($paypalPassord))
-    // {
-    //     if (!empty($postalCode) && !empty($location) && !empty($phone) && !empty($city))
-    //     {
-    //         $creaditCard = null;
-    //         $expirtDate = null;
-    //         $CCV = null;
-    //         $paypalEmail = null;
-    //         $paypalPassord = null;
-    //     }
-    //     else
-    //     {
-    //         $errMsg = "this fields are required!";
-    //     }
-    // }
+    // Based on the selected payment method, set relevant fields
+    switch ($paymentMethod) {
+        case 'creditCard':
+            $creaditCard = $_POST['creaditCard'];
+            $expirtDate = $_POST['expirtDate'];
+            $CCV = $_POST['CCV'];
+            break;
+        case 'paypal':
+            $paypalEmail = $_POST['paypalEmail'];
+            $paypalPassord = $_POST['paypalPassord'];
+            break;
+        case 'cash':
+            // No additional fields needed for cash payment
+            break;
+        default:
+            // Handle default case or throw an error
+            break;
+    }
 
     if (empty($name) || empty($email) || empty($amount)) {
-        $errMsg = "this fields are required!";
-    }
-    else {
-
+        $errMsg = "These fields are required!";
+    } else {
         $donor = new Donor();
-        
-        // if(!empty($city)){$donor->setCity(null);}
-        // else{$donor->setCity($city);}
-
-        // if(!empty($phone)){$donor->setPhone(null);}
-        // else{$donor->setPhone($phone);}
-
-        // if(!empty($location)){$donor->setLocation(null);}
-        // else{$donor->setLocation($location);}
-
-        // if(!empty($postalCode)){$donor->setPostalCode(null);}
-        // else{$donor->setPostalCode($postalCode);}
-        
         $donor->setName($name);
         $donor->setEmail($email);
         $donor->setCity($city);
-        $donor->setPhone($phone);
+        if (!empty($phone) && ctype_digit($phone)) {
+            $donor->setPhone($phone);
+        } else {
+            $errMsg = "Please provide a valid phone number.";
+        }
         $donor->setLocation($location);
-        $donor->setPostalCode($postalCode);
-
+        if (!empty($postalCode) && ctype_digit($postalCode)) {
+            $donor->setPostalCode($postalCode);
+        } else {
+            // Handle the case where the postal code is empty or not a valid integer
+            $errMsg = "Please provide a valid postal code.";
+        }
         $donor->setAmount($amount);
-
         $donor->setPaypalEmail($paypalEmail);
         $donor->setPaypalPassord($paypalPassord);
         $donor->setCreaditCard($creaditCard);
         $donor->setExpirtDate($expirtDate);
         $donor->setCCV($CCV);
-        $donor->setDate(date("h-i-s"));
-
+        $date = date("Y-m-d");
+        $donor->setDate($date);
         
         try {
-            if ($userController->addDonor($donor)) 
-            {
+            if ($userController->addDonor($donor)) {
                 header("Location: index.php");
                 exit;
-                
-            } 
-            else 
-            {
+            } else {
                 $errMsg = "Failed to Add Donor info. Please try again.";
             }
         } catch (Exception $e) {
             $errMsg = "Error: " . $e->getMessage();
         }
     }
-    
 }
+
 
 ?>
 
@@ -320,7 +283,7 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                                     <div class="col-lg-3 col-md-6 col-6 form-check-group">
                                         <div class="form-check form-check-radio">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                            <input class="form-check-input" type="radio" name="amount" id="flexRadioDefault1" value="10">
                                             <label class="form-check-label" for="flexRadioDefault1">
                                                 $10
                                             </label>
@@ -329,7 +292,7 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                                     <div class="col-lg-3 col-md-6 col-6 form-check-group">
                                         <div class="form-check form-check-radio">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                                            <input class="form-check-input" type="radio" name="amount" id="flexRadioDefault2" value="15">
                                             <label class="form-check-label" for="flexRadioDefault2">
                                                 $15
                                             </label>
@@ -338,7 +301,7 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                                     <div class="col-lg-3 col-md-6 col-6 form-check-group">
                                         <div class="form-check form-check-radio">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
+                                            <input class="form-check-input" type="radio" name="amount" id="flexRadioDefault3" value="20">
                                             <label class="form-check-label" for="flexRadioDefault3">
                                                 $20
                                             </label>
@@ -347,7 +310,7 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                                     <div class="col-lg-3 col-md-6 col-6 form-check-group">
                                         <div class="form-check form-check-radio">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4">
+                                            <input class="form-check-input" type="radio" name="amount" id="flexRadioDefault4" value="30">
                                             <label class="form-check-label" for="flexRadioDefault4">
                                                 $30
                                             </label>
@@ -356,7 +319,7 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                                     <div class="col-lg-3 col-md-6 col-6 form-check-group">
                                         <div class="form-check form-check-radio">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault5">
+                                            <input class="form-check-input" type="radio" name="amount" id="flexRadioDefault5" value="45">
                                             <label class="form-check-label" for="flexRadioDefault5">
                                                 $45
                                             </label>
@@ -365,7 +328,7 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                                     <div class="col-lg-3 col-md-6 col-6 form-check-group">
                                         <div class="form-check form-check-radio">
-                                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault6">
+                                            <input class="form-check-input" type="radio" name="amount" id="flexRadioDefault6" value="50">
                                             <label class="form-check-label" for="flexRadioDefault6">
                                                 $50
                                             </label>
@@ -398,7 +361,7 @@ https://templatemo.com/tm-581-kind-heart-charity
 
                                     <div class="col-lg-12 col-12 mt-2">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="DonationPayment" id="flexRadioDefault9" onclick="showCreditCardForm()">
+                                            <input class="form-check-input" type="radio" name="DonationPayment" value="creditCard" id="flexRadioDefault9" onclick="showCreditCardForm()">
                                             <label class="form-check-label" for="flexRadioDefault9">
                                                 <i class="bi-credit-card custom-icon ms-1"></i>
                                                 Debit or Credit card
@@ -406,14 +369,14 @@ https://templatemo.com/tm-581-kind-heart-charity
                                         </div>
                                     
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="DonationPayment" id="flexRadioDefault10" onclick="showPaypalForm()">
+                                            <input class="form-check-input" type="radio" name="DonationPayment" value="paypal" id="flexRadioDefault10" onclick="showPaypalForm()">
                                             <label class="form-check-label" for="flexRadioDefault10">
                                                 <i class="bi-paypal custom-icon ms-1"></i>
                                                 Paypal
                                             </label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="DonationPayment" id="flexRadioDefault10" onclick="showcashForm()">
+                                            <input class="form-check-input" type="radio" name="DonationPayment" value="cash" id="flexRadioDefault10" onclick="showcashForm()">
                                             <label class="form-check-label" for="flexRadioDefault10">
                                                 <i class="bi-cash custom-icon ms-1"></i>
                                                 Cash
@@ -430,7 +393,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="expiryDate">Expiry Date</label>
-                                                    <input type="text" name="expirtDate" class="form-control" id="expiryDate" placeholder="MM/YY">
+                                                    <input type="date" name="expirtDate" class="form-control" id="expiryDate" placeholder="MM/YY">
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="cvv">CVV</label>
