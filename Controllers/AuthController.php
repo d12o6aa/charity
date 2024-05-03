@@ -51,6 +51,13 @@ class AuthController
         }
     }
 
+    public function getVolunteer()
+    {}
+
+    public function makeDonation()
+    {
+    }
+
 }
 
 

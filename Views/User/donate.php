@@ -1,3 +1,84 @@
+<?php
+
+require_once '../../Controllers/AuthControllers.php';
+require_once '../../Models/news.php';
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Start session
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
+}
+
+// Redirect if user is not logged in
+if (!isset($_SESSION["userId"])) {
+    header("Location: pages-login.php");
+    exit;
+}
+
+// Initialize variables
+$errMsg = "";
+$successMsg = "";
+$newscontrollers = new NewsControllers;
+$categories = $newscontrollers->getcategories();
+
+// Process form submission
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Validate form data
+    $date = $_POST['date'];
+    $title = $_POST['title'];
+    $newsDesc = $_POST['newsDesc'];
+    $categorie = $_POST['categories'];
+    
+    if (empty($date) || empty($title) || empty($newsDesc)) {
+        $errMsg = "All fields are required!";
+    } else {
+        // Handle file upload
+        if ($_FILES['img']['error'] === UPLOAD_ERR_OK) {
+            $tmp_name = $_FILES['img']['tmp_name'];
+            $img_name = $_FILES['img']['name'];
+            $location = "../images/" . date("h-i-s") . $img_name;
+            
+            if (move_uploaded_file($tmp_name, $location)) {
+                // Create News object
+                $news = new News;
+                // $news->setUserId($_SESSION["userId"]);
+                $news->setDate($date);
+                $news->setTitle($title);
+                $news->setNewsDesc($newsDesc);
+                $news->setCategories($categorie);
+                $news->setImg($location);
+                
+                // Add news to database
+                try {
+                    if ($newscontrollers->addNews($news)) {
+                        $successMsg = "News added successfully!";
+                        header("Location: index.php");
+                        exit;
+                    } else {
+                        $errMsg = "Failed to add news. Please try again.";
+                    }
+                } catch (Exception $e) {
+                    $errMsg = "Error: " . $e->getMessage();
+                }
+            } else {
+                $errMsg = "Failed to upload image.";
+            }
+        } else {
+            $uploadError = $_FILES['img']['error'];
+            if ($uploadError !== UPLOAD_ERR_OK) {
+                $errMsg = "Failed to upload image. Error code: $uploadError";
+            }
+
+        }
+    }
+}
+
+?>
+
+
+
 <!doctype html>
 <html lang="en">
     <head>
