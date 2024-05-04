@@ -8,17 +8,14 @@ require_once '../../Models/donor.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Start session
 if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
 
-// Initialize variables
 $errMsg = "";
 $successMsg = "";
 $userController = new UserController;
 
-// Process form submission
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -29,17 +26,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $phone = $_POST['phone'];
     $city = $_POST['city'];
 
-    // Determine the selected payment method
     $paymentMethod = $_POST['DonationPayment'];
 
-    // Initialize variables
     $creaditCard = null;
     $expirtDate = null;
     $CCV = null;
     $paypalEmail = null;
     $paypalPassord = null;
 
-    // Based on the selected payment method, set relevant fields
     switch ($paymentMethod) {
         case 'creditCard':
             $creaditCard = $_POST['creaditCard'];
@@ -51,10 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $paypalPassord = $_POST['paypalPassord'];
             break;
         case 'cash':
-            // No additional fields needed for cash payment
             break;
         default:
-            // Handle default case or throw an error
             break;
     }
 
@@ -74,7 +66,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         if (!empty($postalCode) && ctype_digit($postalCode)) {
             $donor->setPostalCode($postalCode);
         } else {
-            // Handle the case where the postal code is empty or not a valid integer
             $errMsg = "Please provide a valid postal code.";
         }
         $donor->setAmount($amount);
@@ -88,6 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         
         try {
             if ($userController->addDonor($donor)) {
+                $successMsg = "1";
                 header("Location: index.php");
                 exit;
             } else {
@@ -243,13 +235,23 @@ https://templatemo.com/tm-581-kind-heart-charity
                         <div class="col-lg-6 col-12 mx-auto">
 
                             <form class="custom-form donate-form" action="#" method="post" role="form">
-                            <?php if ($errMsg != "") { ?>
+
+                                <?php if ($errMsg != "") { ?>
                                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                                         <i class="bi bi-exclamation-triangle me-1"></i>
                                         <?php echo $errMsg; ?>
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                     </div>
-                                <?php } ?>
+                                <?php }else if ($successMsg != ""){ ?>
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <h4 class="alert-heading">Success Donation</h4>
+                                        <p>Thank you for your kindness and generosity! Your donation makes a meaningful difference in the lives of those we serve.</p>
+                                        <hr>
+                                        <p class="mb-0">We deeply appreciate your support and commitment to our cause.</p>
+                                        <button type="button" class="btn-close"  data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                <?php
+                                } ?>
                                 <h3 class="mb-4">Make a donation</h3>
 
                                 <div class="row">
