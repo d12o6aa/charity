@@ -205,6 +205,22 @@ class UserController{
             return false;
         }
     }
+
+    public function getDonor()
+    {
+        if ($this->db->openConnection())
+        {
+            $query = "SELECT * FROM donor";
+            $result = $this->db->select($query);
+            $this->db->closeConnection(); 
+            return $result;
+        }
+        else
+        {
+            echo "Error in database connection";
+            return false;
+        }
+    }
 }
 
 ?>

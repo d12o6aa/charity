@@ -65,13 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST")
         <link href="css/bootstrap-icons.css" rel="stylesheet">
 
         <link href="css/templatemo-kind-heart-charity.css" rel="stylesheet">
-<!--
 
-TemplateMo 581 Kind Heart Charity
-
-https://templatemo.com/tm-581-kind-heart-charity
-
--->
 
     </head>
     
