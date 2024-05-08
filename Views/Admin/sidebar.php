@@ -19,7 +19,17 @@
         <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
             <a href="forms-elements.php">
-              <i class="bi bi-circle"></i><span>Form Elements</span>
+              <i class="bi bi-circle"></i><span>News Form</span>
+            </a>
+          </li>
+          <li>
+            <a href="form-event.php">
+              <i class="bi bi-circle"></i><span>Event Form</span>
+            </a>
+          </li>
+          <li>
+            <a href="form-categories.php">
+              <i class="bi bi-circle"></i><span>Categories Form</span>
             </a>
           </li>
         </ul>

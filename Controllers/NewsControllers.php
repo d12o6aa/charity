@@ -85,6 +85,45 @@ class NewsControllers
         }
     }
 
+    public function addCategories(Categories $categories)
+    {
+        try {
+            if (!$this->db->openConnection()) {
+                throw new Exception("Error: Database connection failed");
+            }
+            
+            $query = "INSERT INTO categories (name) VALUES (?)";
+            $stmt = $this->db->getConnection()->prepare($query);
+            
+            if (!$stmt) {
+                throw new Exception("Error in preparing statement: " . $this->db->getConnection()->error);
+            }
+            
+            // Bind parameters
+            $categorie = $categories->getName(); 
+            
+            
+            $stmt->bind_param("s", $categorie);
+            
+            // Execute the statement
+            $result = $stmt->execute();
+            
+            // Check if the query executed successfully
+            if ($result) {
+                return true;
+            } else {
+                throw new Exception("Error in executing statement: " . $stmt->error);
+            }
+        } catch (Exception $e) {
+            // Handle or log the error appropriately
+            echo "Error: " . $e->getMessage();
+            return false;
+        } finally {
+            $stmt->close(); // Close the statement
+            $this->db->closeConnection(); // Ensure connection is always closed
+        }
+    }
+
 
 
     public function deleteNews($newsId)
