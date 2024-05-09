@@ -134,6 +134,12 @@
           <span>Contact</span>
         </a>
       </li><!-- End Contact Page Nav -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="mail.php">
+          <i class="bi bi-envelope"></i>
+          <span>Mail</span>
+        </a>
+      </li>
 
       <!-- <li class="nav-item">
         <a class="nav-link collapsed" href="pages-register.php">
